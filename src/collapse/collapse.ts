@@ -41,13 +41,8 @@ export class NgbCollapse implements OnInit {
 	 */
 	@Input('ngbCollapse')
 	set collapsed(isCollapsed: boolean) {
-		if (this._isCollapsed !== isCollapsed) {
-			this._isCollapsed = isCollapsed;
-			if (this._afterInit) {
-				this._runTransitionWithEvents(isCollapsed, this.animation);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	@Output() ngbCollapseChange = new EventEmitter<boolean>();
 
@@ -75,9 +70,8 @@ export class NgbCollapse implements OnInit {
 	@Output() hidden = new EventEmitter<void>();
 
 	ngOnInit() {
-		this._runTransition(this._isCollapsed, false);
-		this._afterInit = true;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Triggers collapsing programmatically.
@@ -88,25 +82,14 @@ export class NgbCollapse implements OnInit {
 	 * @since 8.0.0
 	 */
 	toggle(open: boolean = this._isCollapsed) {
-		this.collapsed = !open;
-		this.ngbCollapseChange.next(this._isCollapsed);
-	}
+        throw new Error("STUB");
+    }
 
 	private _runTransition(collapsed: boolean, animation: boolean) {
-		return ngbRunTransition(this._zone, this._element.nativeElement, ngbCollapsingTransition, {
-			animation,
-			runningTransition: 'stop',
-			context: { direction: collapsed ? 'hide' : 'show', dimension: this.horizontal ? 'width' : 'height' },
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	private _runTransitionWithEvents(collapsed: boolean, animation: boolean) {
-		this._runTransition(collapsed, animation).subscribe(() => {
-			if (collapsed) {
-				this.hidden.emit();
-			} else {
-				this.shown.emit();
-			}
-		});
-	}
+        throw new Error("STUB");
+    }
 }

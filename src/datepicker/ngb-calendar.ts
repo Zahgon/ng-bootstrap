@@ -17,7 +17,7 @@ export function toJSDate(date: NgbDate) {
 export type NgbPeriod = 'y' | 'm' | 'd';
 
 export function NGB_DATEPICKER_CALENDAR_FACTORY() {
-	return new NgbCalendarGregorian();
+    throw new Error("STUB");
 }
 
 /**

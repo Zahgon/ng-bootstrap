@@ -73,7 +73,7 @@ let nextWindowId = 0;
 		'[attr.aria-controls]': 'isPopupOpen() ? popupId : null',
 		'[attr.aria-expanded]': 'isPopupOpen()',
 	},
-	providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NgbTypeahead), multi: true }],
+	providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => { throw new Error("STUB"); }), multi: true }],
 })
 export class NgbTypeahead implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
 	private _nativeElement = inject(ElementRef).nativeElement as HTMLInputElement;
@@ -92,7 +92,7 @@ export class NgbTypeahead implements ControlValueAccessor, OnInit, OnChanges, On
 	private _inputValueBackup: string | null = null;
 	private _inputValueForSelectOnExact: string | null = null;
 	private _valueChanges$ = fromEvent<Event>(this._nativeElement, 'input').pipe(
-		map(($event) => ($event.target as HTMLInputElement).value),
+		map(($event) => { throw new Error("STUB"); }),
 	);
 	private _resubscribeTypeahead$ = new BehaviorSubject(null);
 	private _windowRef: ComponentRef<NgbTypeaheadWindow> | null = null;
@@ -213,255 +213,96 @@ export class NgbTypeahead implements ControlValueAccessor, OnInit, OnChanges, On
 	activeDescendant: string | null = null;
 	popupId = `ngb-typeahead-${nextWindowId++}`;
 
-	private _onTouched = () => {};
-	private _onChange = (_: any) => {};
+	private _onTouched = () => {
+        throw new Error("STUB");
+    };
+	private _onChange = (_: any) => {
+        throw new Error("STUB");
+    };
 
 	ngOnInit(): void {
-		this._subscribeToUserInput();
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges({ ngbTypeahead }: SimpleChanges): void {
-		if (ngbTypeahead && !ngbTypeahead.firstChange) {
-			this._unsubscribeFromUserInput();
-			this._subscribeToUserInput();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy(): void {
-		this._closePopup();
-		this._unsubscribeFromUserInput();
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnChange(fn: (value: any) => any): void {
-		this._onChange = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnTouched(fn: () => any): void {
-		this._onTouched = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	writeValue(value) {
-		this._writeInputValue(this._formatItemForInput(value));
-		if (this.showHint) {
-			this._inputValueBackup = value;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	setDisabledState(isDisabled: boolean): void {
-		this._nativeElement.disabled = isDisabled;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Dismisses typeahead popup window
 	 */
 	dismissPopup() {
-		if (this.isPopupOpen()) {
-			this._resubscribeTypeahead$.next(null);
-			this._closePopup();
-			if (this.showHint && this._inputValueBackup !== null) {
-				this._writeInputValue(this._inputValueBackup);
-			}
-			this._changeDetector.markForCheck();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns true if the typeahead popup window is displayed
 	 */
 	isPopupOpen() {
-		return this._windowRef != null;
-	}
+        throw new Error("STUB");
+    }
 
 	handleBlur() {
-		this._resubscribeTypeahead$.next(null);
-		this._onTouched();
-	}
+        throw new Error("STUB");
+    }
 
 	handleKeyDown(event: KeyboardEvent) {
-		if (!this.isPopupOpen()) {
-			return;
-		}
-
-		switch (event.key) {
-			case 'ArrowDown':
-				event.preventDefault();
-				this._windowRef!.instance.next();
-				this._showHint();
-				break;
-			case 'ArrowUp':
-				event.preventDefault();
-				this._windowRef!.instance.prev();
-				this._showHint();
-				break;
-			case 'Enter':
-			case 'Tab': {
-				const result = this._windowRef!.instance.getActive();
-				if (isDefined(result)) {
-					event.preventDefault();
-					event.stopPropagation();
-					this._selectResult(result);
-				}
-				this._closePopup();
-				break;
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _openPopup() {
-		if (!this.isPopupOpen()) {
-			this._inputValueBackup = this._nativeElement.value;
-			const { windowRef } = this._popupService.open();
-			this._windowRef = windowRef;
-			this._windowRef.setInput('id', this.popupId);
-			this._windowRef.setInput('popupClass', this.popupClass);
-			this._windowRef.instance.selectEvent.subscribe((result: any) => this._selectResultClosePopup(result));
-			this._windowRef.instance.activeChangeEvent.subscribe((activeId: string) => (this.activeDescendant = activeId));
-
-			if (this.container === 'body') {
-				(this._windowRef.location.nativeElement as HTMLElement).style.zIndex = '1055';
-				this._document.body.appendChild(this._windowRef.location.nativeElement);
-			}
-
-			this._changeDetector.markForCheck();
-
-			// Setting up popper and scheduling updates when zone is stable
-			this._ngZone.runOutsideAngular(() => {
-				if (this._windowRef) {
-					this._positioning.createPopper({
-						hostElement: this._nativeElement,
-						targetElement: this._windowRef.location.nativeElement,
-						placement: this.placement,
-						updatePopperOptions: (options) => this.popperOptions(addPopperOffset([0, 2])(options)),
-					});
-
-					this._afterRenderRef = afterEveryRender(
-						{
-							mixedReadWrite: () => {
-								this._positioning.update();
-							},
-						},
-						{ injector: this._injector },
-					);
-				}
-			});
-
-			ngbAutoClose(this._ngZone, this._document, 'outside', () => this.dismissPopup(), this._closed$, [
-				this._nativeElement,
-				this._windowRef.location.nativeElement,
-			]);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _closePopup() {
-		this._popupService.close().subscribe(() => {
-			this._positioning.destroy();
-			this._afterRenderRef?.destroy();
-			this._closed$.next();
-			this._windowRef = null;
-			this.activeDescendant = null;
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	private _selectResult(result: any) {
-		let defaultPrevented = false;
-		this.selectItem.emit({
-			item: result,
-			preventDefault: () => {
-				defaultPrevented = true;
-			},
-		});
-		this._resubscribeTypeahead$.next(null);
-
-		if (!defaultPrevented) {
-			this.writeValue(result);
-			this._onChange(result);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _selectResultClosePopup(result: any) {
-		this._selectResult(result);
-		this._closePopup();
-	}
+        throw new Error("STUB");
+    }
 
 	private _showHint() {
-		if (this.showHint && this._windowRef?.instance.hasActive() && this._inputValueBackup != null) {
-			const userInputLowerCase = this._inputValueBackup.toLowerCase();
-			const formattedVal = this._formatItemForInput(this._windowRef.instance.getActive());
-
-			if (userInputLowerCase === formattedVal.substring(0, this._inputValueBackup.length).toLowerCase()) {
-				this._writeInputValue(this._inputValueBackup + formattedVal.substring(this._inputValueBackup.length));
-				this._nativeElement['setSelectionRange'].apply(this._nativeElement, [
-					this._inputValueBackup.length,
-					formattedVal.length,
-				]);
-			} else {
-				this._writeInputValue(formattedVal);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _formatItemForInput(item: any): string {
-		return item != null && this.inputFormatter ? this.inputFormatter(item) : toString(item);
-	}
+        throw new Error("STUB");
+    }
 
 	private _writeInputValue(value: string): void {
-		this._nativeElement.value = toString(value);
-	}
+        throw new Error("STUB");
+    }
 
 	private _subscribeToUserInput(): void {
-		const results$ = this._valueChanges$.pipe(
-			tap((value) => {
-				this._inputValueBackup = this.showHint ? value : null;
-				this._inputValueForSelectOnExact = this.selectOnExact ? value : null;
-				this._onChange(this.editable ? value : null);
-			}),
-			this.ngbTypeahead ? this.ngbTypeahead : () => of([]),
-		);
-
-		this._subscription = this._resubscribeTypeahead$.pipe(switchMap(() => results$)).subscribe((results) => {
-			if (!results || results.length === 0) {
-				this._closePopup();
-			} else {
-				// when there is only one result and this matches the input value
-				if (
-					this.selectOnExact &&
-					results.length === 1 &&
-					this._formatItemForInput(results[0]) === this._inputValueForSelectOnExact
-				) {
-					this._selectResult(results[0]);
-					this._closePopup();
-				} else {
-					this._openPopup();
-					this._windowRef!.setInput('focusFirst', this.focusFirst);
-					this._windowRef!.setInput('results', results);
-					this._windowRef!.setInput('term', this._nativeElement.value);
-					if (this.resultFormatter) {
-						this._windowRef!.setInput('formatter', this.resultFormatter);
-					}
-					if (this.resultTemplate) {
-						this._windowRef!.setInput('resultTemplate', this.resultTemplate);
-					}
-					this._windowRef!.instance.resetActive();
-
-					// The observable stream we are subscribing to might have async steps
-					// and if a component containing typeahead is using the OnPush strategy
-					// the change detection turn wouldn't be invoked automatically.
-					this._windowRef!.changeDetectorRef.detectChanges();
-
-					this._showHint();
-				}
-			}
-
-			// live announcer
-			const count = results ? results.length : 0;
-			this._live.say(count === 0 ? 'No results available' : `${count} result${count === 1 ? '' : 's'} available`);
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	private _unsubscribeFromUserInput() {
-		if (this._subscription) {
-			this._subscription.unsubscribe();
-		}
-		this._subscription = null;
-	}
+        throw new Error("STUB");
+    }
 }

@@ -62,16 +62,8 @@ export class NgbScrollSpyItem implements OnInit {
 	 *  As well as together with `[fragment]` and `[parent]` inputs.
 	 */
 	@Input('ngbScrollSpyItem') set data(data: NgbScrollSpy | string | [NgbScrollSpy, string, string?]) {
-		if (Array.isArray(data)) {
-			this._scrollSpyAPI = data[0];
-			this.fragment = data[1];
-			this.parent ??= data[2];
-		} else if (data instanceof NgbScrollSpy) {
-			this._scrollSpyAPI = data;
-		} else if (isString(data)) {
-			this.fragment = data;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * The id of the associated fragment.
@@ -84,45 +76,29 @@ export class NgbScrollSpyItem implements OnInit {
 	@Input() parent: string | undefined;
 
 	ngOnInit(): void {
-		// if it is not a part of a bigger menu, it should handle activation itself
-		if (!this._scrollSpyMenu) {
-			this._scrollSpyAPI.active$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((active: string) => {
-				if (active === this.fragment) {
-					this._activate();
-				} else {
-					this._deactivate();
-				}
-				this._changeDetector.markForCheck();
-			});
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * @internal
 	 */
 	_activate(): void {
-		this._isActive = true;
-		if (this._scrollSpyMenu) {
-			this._scrollSpyMenu.getItem(this.parent ?? '')?._activate();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * @internal
 	 */
 	_deactivate(): void {
-		this._isActive = false;
-		if (this._scrollSpyMenu) {
-			this._scrollSpyMenu.getItem(this.parent ?? '')?._deactivate();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns `true`, if the associated fragment is active.
 	 */
 	isActive(): boolean {
-		return this._isActive;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Scrolls to the associated fragment.
@@ -150,43 +126,30 @@ export class NgbScrollSpyMenu implements NgbScrollSpyRef, AfterViewInit {
 	@ContentChildren(NgbScrollSpyItem, { descendants: true }) private _items: QueryList<NgbScrollSpyItem>;
 
 	@Input('ngbScrollSpyMenu') set scrollSpy(scrollSpy: NgbScrollSpy) {
-		this._scrollSpyRef = scrollSpy;
-	}
+        throw new Error("STUB");
+    }
 
 	get active(): string {
-		return this._scrollSpyRef.active;
-	}
+        throw new Error("STUB");
+    }
 	get active$(): Observable<string> {
-		return this._scrollSpyRef.active$;
-	}
+        throw new Error("STUB");
+    }
 	scrollTo(fragment: string, options?: NgbScrollToOptions): void {
 		this._scrollSpyRef.scrollTo(fragment, options);
 	}
 
 	getItem(id: string): NgbScrollSpyItem | undefined {
-		return this._map.get(id);
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterViewInit() {
-		this._items.changes.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => this._rebuildMap());
-		this._rebuildMap();
-
-		this._scrollSpyRef.active$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((activeId) => {
-			this._lastActiveItem?._deactivate();
-			const item = this._map.get(activeId);
-			if (item) {
-				item._activate();
-				this._lastActiveItem = item;
-			}
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	private _rebuildMap() {
-		this._map.clear();
-		for (let item of this._items) {
-			this._map.set(item.fragment, item);
-		}
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -235,9 +198,8 @@ export class NgbScrollSpy implements NgbScrollSpyRef, AfterViewInit {
 	@Input() threshold: number | number[];
 
 	@Input() set active(fragment: string) {
-		this._initialFragment = fragment;
-		this.scrollTo(fragment);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * An event raised when the active section changes.
@@ -250,39 +212,33 @@ export class NgbScrollSpy implements NgbScrollSpyRef, AfterViewInit {
 	 * Getter/setter for the currently active fragment id.
 	 */
 	get active(): string {
-		return this._service.active;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns an observable that emits currently active section id.
 	 */
 	get active$(): Observable<string> {
-		return this._service.active$;
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterViewInit(): void {
-		this._service.start({
-			processChanges: this.processChanges,
-			root: this._nativeElement,
-			rootMargin: this.rootMargin,
-			threshold: this.threshold,
-			...(this._initialFragment && { initialFragment: this._initialFragment }),
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * @internal
 	 */
 	_registerFragment(fragment: NgbScrollSpyFragment): void {
-		this._service.observe(fragment.id);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * @internal
 	 */
 	_unregisterFragment(fragment: NgbScrollSpyFragment): void {
-		this._service.unobserve(fragment.id);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Scrolls to a fragment that is identified by the `ngbScrollSpyFragment` directive.
@@ -318,7 +274,6 @@ export class NgbScrollSpyFragment implements AfterViewInit {
 	@Input('ngbScrollSpyFragment') id: string;
 
 	ngAfterViewInit() {
-		this._scrollSpy._registerFragment(this);
-		this._destroyRef.onDestroy(() => this._scrollSpy._unregisterFragment(this));
-	}
+        throw new Error("STUB");
+    }
 }

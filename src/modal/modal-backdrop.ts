@@ -41,38 +41,14 @@ export class NgbModalBackdrop implements OnInit {
 	@Input() backdropClass: string;
 
 	ngOnInit() {
-		afterNextRender(
-			{
-				mixedReadWrite: () =>
-					ngbRunTransition(
-						this._zone,
-						this._nativeElement,
-						(element: HTMLElement, animation: boolean) => {
-							if (animation) {
-								reflow(element);
-							}
-							element.classList.add('show');
-						},
-						{ animation: this.animation, runningTransition: 'continue' },
-					),
-			},
-			{ injector: this._injector },
-		);
-	}
+        throw new Error("STUB");
+    }
 
 	hide(): Observable<void> {
-		return ngbRunTransition(this._zone, this._nativeElement, ({ classList }) => classList.remove('show'), {
-			animation: this.animation,
-			runningTransition: 'stop',
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	updateOptions(options: NgbModalUpdatableOptions) {
-		BACKDROP_ATTRIBUTES.forEach((optionName: string) => {
-			if (isDefined(options[optionName])) {
-				this[optionName] = options[optionName];
-			}
-		});
-		this._cdRef.markForCheck();
-	}
+        throw new Error("STUB");
+    }
 }

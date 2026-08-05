@@ -35,28 +35,7 @@ export const ngbCarouselTransitionIn: NgbTransitionStartFn<NgbCarouselCtx> = (
 	animation: boolean,
 	{ direction }: NgbCarouselCtx,
 ) => {
-	const { classList } = element;
-
-	if (!animation) {
-		removeClasses(classList);
-		classList.add('active');
-		return;
-	}
-
-	if (isBeingAnimated(element)) {
-		// Revert the transition
-		removeDirectionClasses(classList);
-	} else {
-		// For the 'in' transition, a 'pre-class' is applied to the element to ensure its visibility
-		classList.add('carousel-item-' + (direction === NgbSlideEventDirection.START ? 'next' : 'prev'));
-		reflow(element);
-		classList.add('carousel-item-' + direction);
-	}
-
-	return () => {
-		removeClasses(classList);
-		classList.add('active');
-	};
+    throw new Error("STUB");
 };
 
 export const ngbCarouselTransitionOut: NgbTransitionStartFn<NgbCarouselCtx> = (
@@ -64,24 +43,5 @@ export const ngbCarouselTransitionOut: NgbTransitionStartFn<NgbCarouselCtx> = (
 	animation: boolean,
 	{ direction }: NgbCarouselCtx,
 ) => {
-	const { classList } = element;
-
-	if (!animation) {
-		removeClasses(classList);
-		classList.remove('active');
-		return;
-	}
-
-	//  direction is left or right, depending on the way the slide goes out.
-	if (isBeingAnimated(element)) {
-		// Revert the transition
-		removeDirectionClasses(classList);
-	} else {
-		classList.add('carousel-item-' + direction);
-	}
-
-	return () => {
-		removeClasses(classList);
-		classList.remove('active');
-	};
+    throw new Error("STUB");
 };

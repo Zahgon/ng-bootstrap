@@ -70,7 +70,7 @@ export interface StarTemplateContext {
 			</span>
 		}
 	`,
-	providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NgbRating), multi: true }],
+	providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => { throw new Error("STUB"); }), multi: true }],
 })
 export class NgbRating implements ControlValueAccessor, OnInit, OnChanges {
 	contexts: StarTemplateContext[] = [];
@@ -126,8 +126,8 @@ export class NgbRating implements ControlValueAccessor, OnInit, OnChanges {
 	 * @since 14.1.0
 	 */
 	@Input() ariaValueText(current: number, max: number) {
-		return `${current} out of ${max}`;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * An event emitted when the user is hovering over a given rating.
@@ -150,118 +150,77 @@ export class NgbRating implements ControlValueAccessor, OnInit, OnChanges {
 	 */
 	@Output() rateChange = new EventEmitter<number>(true);
 
-	onChange = (_: any) => {};
-	onTouched = () => {};
+	onChange = (_: any) => {
+        throw new Error("STUB");
+    };
+	onTouched = () => {
+        throw new Error("STUB");
+    };
 
 	isInteractive(): boolean {
-		return !this.readonly && !this.disabled;
-	}
+        throw new Error("STUB");
+    }
 
 	enter(value: number): void {
-		if (this.isInteractive()) {
-			this._updateState(value);
-		}
-		this.hover.emit(value);
-	}
+        throw new Error("STUB");
+    }
 
 	handleBlur() {
-		this.onTouched();
-	}
+        throw new Error("STUB");
+    }
 
 	handleClick(value: number) {
-		if (this.isInteractive()) {
-			this.update(this.resettable && this.rate === value ? 0 : value);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	handleKeyDown(event: KeyboardEvent) {
-		switch (event.key) {
-			case 'ArrowDown':
-			case 'ArrowLeft':
-				this.update(this.rate - 1);
-				break;
-			case 'ArrowUp':
-			case 'ArrowRight':
-				this.update(this.rate + 1);
-				break;
-			case 'Home':
-				this.update(0);
-				break;
-			case 'End':
-				this.update(this.max);
-				break;
-			default:
-				return;
-		}
-
-		// note 'return' in default case
-		event.preventDefault();
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes['rate']) {
-			this.update(this.rate);
-		}
-		if (changes['max']) {
-			this._updateMax();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnInit(): void {
-		this._setupContexts();
-		this._updateState(this.rate);
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnChange(fn: (value: any) => any): void {
-		this.onChange = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnTouched(fn: () => any): void {
-		this.onTouched = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	reset(): void {
-		this.leave.emit(this.nextRate);
-		this._updateState(this.rate);
-	}
+        throw new Error("STUB");
+    }
 
 	setDisabledState(isDisabled: boolean) {
-		this.disabled = isDisabled;
-	}
+        throw new Error("STUB");
+    }
 
 	update(value: number, internalChange = true): void {
-		const newRate = getValueInRange(value, this.max, 0);
-		if (this.isInteractive() && this.rate !== newRate) {
-			this.rate = newRate;
-			this.rateChange.emit(this.rate);
-		}
-		if (internalChange) {
-			this.onChange(this.rate);
-			this.onTouched();
-		}
-		this._updateState(this.rate);
-	}
+        throw new Error("STUB");
+    }
 
 	writeValue(value) {
-		this.update(value, false);
-		this._changeDetectorRef.markForCheck();
-	}
+        throw new Error("STUB");
+    }
 
 	private _updateState(nextValue: number) {
 		this.nextRate = nextValue;
 		this.contexts.forEach(
-			(context, index) => (context.fill = Math.round(getValueInRange(nextValue - index, 1, 0) * 100)),
+			(context, index) => { throw new Error("STUB"); },
 		);
 	}
 
 	private _updateMax() {
-		if (this.max > 0) {
-			this._setupContexts();
-			this.update(this.rate);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _setupContexts() {
-		this.contexts = Array.from({ length: this.max }, (v, k) => ({ fill: 0, index: k }));
-	}
+        throw new Error("STUB");
+    }
 }

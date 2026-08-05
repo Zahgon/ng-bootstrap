@@ -204,15 +204,12 @@ export class NgbTooltip implements OnInit, OnDestroy, OnChanges {
 	 */
 	@Input()
 	set ngbTooltip(value: string | TemplateRef<any> | null | undefined) {
-		this._ngbTooltip = value;
-		if (!value && this._windowRef) {
-			this.close();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	get ngbTooltip() {
-		return this._ngbTooltip;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Opens the tooltip.
@@ -221,85 +218,8 @@ export class NgbTooltip implements OnInit, OnDestroy, OnChanges {
 	 * The `context` is an optional value to be injected into the tooltip template when it is created.
 	 */
 	open(context?: any) {
-		if (!this._opening && this._transitioning) {
-			this._transitioning = false;
-			ngbCompleteTransition(this._windowRef!.location.nativeElement);
-		}
-		if (!this._windowRef && this._ngbTooltip && !this.disableTooltip) {
-			const { windowRef, transition$ } = this._popupService.open(
-				this._ngbTooltip,
-				context ?? this.tooltipContext,
-				this.animation,
-			);
-			this._opening = true;
-			this._transitioning = true;
-			this._windowRef = windowRef;
-			this._windowRef.setInput('animation', this.animation);
-			this._windowRef.setInput('tooltipClass', this.tooltipClass);
-			this._windowRef.setInput('id', this._ngbTooltipWindowId);
-			this._windowRef.setInput('onMouseEnter', () => this._mouseEnterTooltip.next());
-			this._windowRef.setInput('onMouseLeave', () => this._mouseLeaveTooltip.next());
-
-			this._getPositionTargetElement().setAttribute('aria-describedby', this._ngbTooltipWindowId);
-
-			if (this.container === 'body') {
-				this._document.body.appendChild(this._windowRef.location.nativeElement);
-			}
-
-			// We need to detect changes, because we don't know where .open() might be called from.
-			// Ex. opening tooltip from one of lifecycle hooks that run after the CD
-			// (say from ngAfterViewInit) will result in 'ExpressionHasChanged' exception
-			this._windowRef.changeDetectorRef.detectChanges();
-
-			// We need to mark for check, because tooltip won't work inside the OnPush component.
-			// Ex. when we use expression like `{{ tooltip.isOpen() : 'opened' : 'closed' }}`
-			// inside the template of an OnPush component and we change the tooltip from
-			// open -> closed, the expression in question won't be updated unless we explicitly
-			// mark the parent component to be checked.
-			this._windowRef.changeDetectorRef.markForCheck();
-
-			// Setting up popper and scheduling updates when zone is stable
-			this._ngZone.runOutsideAngular(() => {
-				this._positioning.createPopper({
-					hostElement: this._getPositionTargetElement(),
-					targetElement: this._windowRef!.location.nativeElement,
-					placement: this.placement,
-					baseClass: 'bs-tooltip',
-					updatePopperOptions: (options) => this.popperOptions(addPopperOffset([0, 6])(options)),
-				});
-
-				Promise.resolve().then(() => {
-					// This update is required for correct arrow placement
-					this._positioning.update();
-				});
-				this._afterRenderRef = afterEveryRender(
-					{
-						mixedReadWrite: () => {
-							this._positioning.update();
-						},
-					},
-					{ injector: this._injector },
-				);
-			});
-
-			ngbAutoClose(
-				this._ngZone,
-				this._document,
-				this.autoClose,
-				() => this.close(),
-				this.hidden,
-				[this._windowRef.location.nativeElement],
-				[this._nativeElement],
-			);
-
-			transition$.subscribe(() => {
-				if (this._transitioning) {
-					this._transitioning = false;
-					this.shown.emit();
-				}
-			});
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Closes the tooltip.
@@ -307,26 +227,8 @@ export class NgbTooltip implements OnInit, OnDestroy, OnChanges {
 	 * This is considered to be a "manual" triggering of the tooltip.
 	 */
 	close(animation = this.animation): void {
-		if (this._opening && this._transitioning) {
-			this._transitioning = false;
-			ngbCompleteTransition(this._windowRef!.location.nativeElement);
-		}
-		if (this._windowRef != null) {
-			this._getPositionTargetElement().removeAttribute('aria-describedby');
-			this._opening = false;
-			this._transitioning = true;
-			this._popupService.close(animation).subscribe(() => {
-				this._windowRef = null;
-				this._positioning.destroy();
-				this._afterRenderRef?.destroy();
-				if (this._transitioning) {
-					this._transitioning = false;
-					this.hidden.emit();
-				}
-				this._changeDetector.markForCheck();
-			});
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Toggles the tooltip.
@@ -334,51 +236,29 @@ export class NgbTooltip implements OnInit, OnDestroy, OnChanges {
 	 * This is considered to be a "manual" triggering of the tooltip.
 	 */
 	toggle(): void {
-		if (this._windowRef) {
-			this.close();
-		} else {
-			this.open();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns `true`, if the tooltip is currently shown.
 	 */
 	isOpen(): boolean {
-		return this._windowRef != null;
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnInit() {
-		this._unregisterListenersFn = listenToTriggers(
-			this._nativeElement,
-			this.triggers,
-			this.isOpen.bind(this),
-			this.open.bind(this),
-			this.close.bind(this),
-			+this.openDelay,
-			+this.closeDelay,
-			this._mouseEnterTooltip,
-			this._mouseLeaveTooltip,
-		);
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges({ tooltipClass }: SimpleChanges) {
-		if (tooltipClass && this.isOpen()) {
-			this._windowRef!.setInput('tooltipClass', tooltipClass.currentValue);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy() {
-		this.close(false);
-		// This check is necessary because it's possible that ngOnDestroy could be invoked before ngOnInit.
-		// under certain conditions, see: https://github.com/ng-bootstrap/ng-bootstrap/issues/2199
-		this._unregisterListenersFn?.();
-	}
+        throw new Error("STUB");
+    }
 
 	private _getPositionTargetElement(): HTMLElement {
-		return (
-			(isString(this.positionTarget) ? this._document.querySelector(this.positionTarget) : this.positionTarget) ||
-			this._nativeElement
-		);
-	}
+        throw new Error("STUB");
+    }
 }

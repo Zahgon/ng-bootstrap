@@ -48,12 +48,12 @@ export class NgbProgressbar {
 	 */
 	@Input()
 	set max(max: number) {
-		this._max = !isNumber(max) || max <= 0 ? 100 : max;
-	}
+        throw new Error("STUB");
+    }
 
 	get max(): number {
-		return this._max;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, the stripes on the progress bar are animated.
@@ -116,12 +116,12 @@ export class NgbProgressbar {
 	}
 
 	getValue() {
-		return getValueInRange(this.value, this.max);
-	}
+        throw new Error("STUB");
+    }
 
 	getPercentValue() {
-		return (100 * this.getValue()) / this.max;
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**

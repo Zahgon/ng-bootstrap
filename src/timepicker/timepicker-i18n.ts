@@ -7,7 +7,7 @@ import { Service, LOCALE_ID, inject } from '@angular/core';
  * as explained in the Angular i18n guide.
  */
 @Service({
-	factory: () => new NgbTimepickerI18nDefault(),
+	factory: () => { throw new Error("STUB"); },
 })
 export abstract class NgbTimepickerI18n {
 	/**
@@ -31,10 +31,10 @@ export class NgbTimepickerI18nDefault extends NgbTimepickerI18n {
 	];
 
 	getMorningPeriod(): string {
-		return this._periods[0];
-	}
+        throw new Error("STUB");
+    }
 
 	getAfternoonPeriod(): string {
-		return this._periods[1];
-	}
+        throw new Error("STUB");
+    }
 }

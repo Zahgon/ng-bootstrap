@@ -3,7 +3,7 @@ import { NgbDateStruct } from '../ngb-date-struct';
 import { isInteger } from '@ng-bootstrap/ng-bootstrap/utils';
 
 export function NGB_DATEPICKER_DATE_ADAPTER_FACTORY(): NgbDateAdapter<any> {
-	return new NgbDateStructAdapter();
+    throw new Error("STUB");
 }
 
 /**
@@ -37,17 +37,13 @@ export class NgbDateStructAdapter extends NgbDateAdapter<NgbDateStruct> {
 	 * Converts a NgbDateStruct value into NgbDateStruct value
 	 */
 	fromModel(date: NgbDateStruct | null): NgbDateStruct | null {
-		return date && isInteger(date.year) && isInteger(date.month) && isInteger(date.day)
-			? { year: date.year, month: date.month, day: date.day }
-			: null;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Converts a NgbDateStruct value into NgbDateStruct value
 	 */
 	toModel(date: NgbDateStruct | null): NgbDateStruct | null {
-		return date && isInteger(date.year) && isInteger(date.month) && isInteger(date.day)
-			? { year: date.year, month: date.month, day: date.day }
-			: null;
-	}
+        throw new Error("STUB");
+    }
 }

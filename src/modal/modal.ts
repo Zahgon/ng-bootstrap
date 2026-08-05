@@ -26,16 +26,15 @@ export class NgbModal {
 	 * Also see the [`NgbModalOptions`](#/components/modal/api#NgbModalOptions) for the list of supported options.
 	 */
 	open(content: any, options: NgbModalOptions = {}): NgbModalRef {
-		const combinedOptions = { ...this._config, animation: this._config.animation, ...options };
-		return this._modalStack.open(this._injector, content, combinedOptions);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns an observable that holds the active modal instances.
 	 */
 	get activeInstances() {
-		return this._modalStack.activeInstances;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Dismisses all currently displayed modal windows with the supplied reason.
@@ -43,8 +42,8 @@ export class NgbModal {
 	 * @since 3.1.0
 	 */
 	dismissAll(reason?: any) {
-		this._modalStack.dismissAll(reason);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Indicates if there are currently any open modal windows in the application.
@@ -52,6 +51,6 @@ export class NgbModal {
 	 * @since 3.3.0
 	 */
 	hasOpenModals(): boolean {
-		return this._modalStack.hasOpenModals();
-	}
+        throw new Error("STUB");
+    }
 }

@@ -48,8 +48,7 @@ const bootstrapPopperMatches = {
 };
 
 export function getPopperClassPlacement(placement: Placement, isRTL: boolean): PopperPlacement {
-	const [leftClass, rightClass] = bootstrapPopperMatches[placement];
-	return isRTL ? rightClass || leftClass : leftClass;
+    throw new Error("STUB");
 }
 
 const popperStartPrimaryPlacement = /^left/;
@@ -70,7 +69,7 @@ export function getBootstrapBaseClassPlacement(baseClass: string, placement: Pop
 		classnames.push(`${newPrimary}-${newSecondary}` as Placement);
 	}
 	if (baseClass) {
-		classnames = classnames.map((classname) => `${baseClass}-${classname}`);
+		classnames = classnames.map((classname) => { throw new Error("STUB"); });
 	}
 	return classnames.join(' ');
 }
@@ -86,84 +85,7 @@ export function getBootstrapBaseClassPlacement(baseClass: string, placement: Pop
  *   'end-top', 'end-bottom'.
  * */
 export function getPopperOptions({ placement, baseClass }: PositioningOptions, rtl: NgbRTL): Partial<Options> {
-	let placementVals: Array<Placement> = Array.isArray(placement)
-		? placement
-		: (placement.split(placementSeparator) as Array<Placement>);
-
-	// No need to consider left and right here, as start and end are enough, and it is used for 'auto' placement only
-	const allowedPlacements = [
-		'top',
-		'bottom',
-		'start',
-		'end',
-		'top-start',
-		'top-end',
-		'bottom-start',
-		'bottom-end',
-		'start-top',
-		'start-bottom',
-		'end-top',
-		'end-bottom',
-	];
-
-	// replace auto placement with other placements
-	let hasAuto = placementVals.findIndex((val) => val === 'auto');
-	if (hasAuto >= 0) {
-		allowedPlacements.forEach(function (obj) {
-			if (placementVals.find((val) => val.search('^' + obj) !== -1) == null) {
-				placementVals.splice(hasAuto++, 1, obj as Placement);
-			}
-		});
-	}
-
-	const popperPlacements = placementVals.map((_placement) => {
-		return getPopperClassPlacement(_placement, rtl.isRTL());
-	});
-
-	let mainPlacement = popperPlacements.shift();
-
-	const bsModifier: Partial<Modifier<any, any>> = {
-		name: 'bootstrapClasses',
-		enabled: !!baseClass,
-		phase: 'write',
-		fn({ state }) {
-			const bsClassRegExp = new RegExp(baseClass + '(-[a-z]+)*', 'gi');
-
-			const popperElement: HTMLElement = state.elements.popper as HTMLElement;
-			const popperPlacement = state.placement;
-
-			let className = popperElement.className;
-
-			// Remove old bootstrap classes
-			className = className.replace(bsClassRegExp, '');
-
-			// Add current placements
-			className += ` ${getBootstrapBaseClassPlacement(baseClass!, popperPlacement)}`;
-
-			// Remove multiple spaces
-			className = className.trim().replace(spacesRegExp, ' ');
-
-			// Reassign
-			popperElement.className = className;
-		},
-	};
-
-	return {
-		placement: mainPlacement,
-		modifiers: [
-			bsModifier,
-			flip,
-			preventOverflow,
-			arrow,
-			{
-				enabled: true,
-				name: 'flip',
-				options: {
-					fallbackPlacements: popperPlacements,
-				},
-			},
-		],
-	};
+    throw new Error("STUB");
 }
 
 export type Placement =
@@ -202,42 +124,9 @@ interface PositioningOptions {
 }
 
 function noop(arg) {
-	return arg;
+    throw new Error("STUB");
 }
 
 export function ngbPositioning() {
-	const rtl = inject(NgbRTL);
-	let popperInstance: Instance | null = null;
-
-	return {
-		createPopper(positioningOption: PositioningOptions) {
-			if (!popperInstance) {
-				const updatePopperOptions = positioningOption.updatePopperOptions || noop;
-				let popperOptions = updatePopperOptions(getPopperOptions(positioningOption, rtl));
-				popperInstance = createPopperLite(
-					positioningOption.hostElement,
-					positioningOption.targetElement,
-					popperOptions,
-				);
-			}
-		},
-		update() {
-			if (popperInstance) {
-				popperInstance.update();
-			}
-		},
-		setOptions(positioningOption: PositioningOptions) {
-			if (popperInstance) {
-				const updatePopperOptions = positioningOption.updatePopperOptions || noop;
-				let popperOptions = updatePopperOptions(getPopperOptions(positioningOption, rtl));
-				popperInstance.setOptions(popperOptions);
-			}
-		},
-		destroy() {
-			if (popperInstance) {
-				popperInstance.destroy();
-				popperInstance = null;
-			}
-		},
-	};
+    throw new Error("STUB");
 }

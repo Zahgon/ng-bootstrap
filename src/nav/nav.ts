@@ -26,7 +26,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isDefined } from '@ng-bootstrap/ng-bootstrap/utils';
 import { NgbNavConfig } from './nav-config';
 
-const isValidNavId = (id: any) => isDefined(id) && id !== '';
+const isValidNavId = (id: any) => { throw new Error("STUB"); };
 
 let navCounter = 0;
 
@@ -135,33 +135,31 @@ export class NgbNavItem implements OnInit {
 	@ContentChild(NgbNavContent, { descendants: false }) contentTpl?: NgbNavContent;
 
 	ngOnInit() {
-		if (!isDefined(this.domId)) {
-			this.domId = `ngb-nav-${navCounter++}`;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	get active() {
-		return this._nav.activeId === this.id;
-	}
+        throw new Error("STUB");
+    }
 
 	get id() {
-		return isValidNavId(this._id) ? this._id : this.domId;
-	}
+        throw new Error("STUB");
+    }
 
 	get panelDomId() {
-		return `${this.domId}-panel`;
-	}
+        throw new Error("STUB");
+    }
 
 	isPanelInDom() {
-		return (isDefined(this.destroyOnHide) ? !this.destroyOnHide : !this._nav.destroyOnHide) || this.active;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * @internal
 	 */
 	isNgContainer() {
-		return this._nativeElement.nodeType === Node.COMMENT_NODE;
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -273,7 +271,7 @@ export class NgbNav implements AfterContentInit, OnChanges {
 	@Output() hidden = new EventEmitter<any>();
 
 	@ContentChildren(NgbNavItem) items: QueryList<NgbNavItem>;
-	@ContentChildren(forwardRef(() => NgbNavLinkBase), { descendants: true }) links: QueryList<NgbNavLinkBase>;
+	@ContentChildren(forwardRef(() => { throw new Error("STUB"); }), { descendants: true }) links: QueryList<NgbNavLinkBase>;
 
 	navItemChange$ = new Subject<NgbNavItem | null>();
 
@@ -289,116 +287,44 @@ export class NgbNav implements AfterContentInit, OnChanges {
 	@Output() navChange = new EventEmitter<NgbNavChangeEvent>();
 
 	click(item: NgbNavItem) {
-		if (!item.disabled) {
-			this._updateActiveId(item.id);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	onFocusout({ relatedTarget }: FocusEvent) {
-		if (!this._nativeElement.contains(relatedTarget as HTMLElement)) {
-			this._navigatingWithKeyboard = false;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	onKeyDown(event: KeyboardEvent) {
-		if (this.roles !== 'tablist' || !this.keyboard) {
-			return;
-		}
-		const enabledLinks = this.links.filter((link) => !link.navItem.disabled);
-		const { length } = enabledLinks;
-
-		let position = -1;
-
-		enabledLinks.forEach((link, index) => {
-			if (link.nativeElement === this._document.activeElement) {
-				position = index;
-			}
-		});
-
-		if (length) {
-			switch (event.key) {
-				case 'ArrowUp':
-				case 'ArrowLeft':
-					position = (position - 1 + length) % length;
-					break;
-				case 'ArrowRight':
-				case 'ArrowDown':
-					position = (position + 1) % length;
-					break;
-				case 'Home':
-					position = 0;
-					break;
-				case 'End':
-					position = length - 1;
-					break;
-			}
-			if (this.keyboard === 'changeWithArrows') {
-				this.select(enabledLinks[position].navItem.id);
-			}
-			enabledLinks[position].nativeElement.focus();
-			this._navigatingWithKeyboard = true;
-
-			event.preventDefault();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Selects the nav with the given id and shows its associated pane.
 	 * Any other nav that was previously selected becomes unselected and its associated pane is hidden.
 	 */
 	select(id: any) {
-		this._updateActiveId(id, false);
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterContentInit() {
-		if (!isDefined(this.activeId)) {
-			const nextId = this.items.first ? this.items.first.id : null;
-			if (isValidNavId(nextId)) {
-				this._updateActiveId(nextId, false);
-				this._cd.detectChanges();
-			}
-		}
-
-		this.items.changes
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => this._notifyItemChanged(this.activeId));
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges({ activeId }: SimpleChanges): void {
-		if (activeId && !activeId.firstChange) {
-			this._notifyItemChanged(activeId.currentValue);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _updateActiveId(nextId: any, emitNavChange = true) {
-		if (this.activeId !== nextId) {
-			let defaultPrevented = false;
-
-			if (emitNavChange) {
-				this.navChange.emit({
-					activeId: this.activeId,
-					nextId,
-					preventDefault: () => {
-						defaultPrevented = true;
-					},
-				});
-			}
-
-			if (!defaultPrevented) {
-				this.activeId = nextId;
-				this.activeIdChange.emit(nextId);
-				this._notifyItemChanged(nextId);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _notifyItemChanged(nextItemId: any) {
-		this.navItemChange$.next(this._getItemById(nextItemId));
-	}
+        throw new Error("STUB");
+    }
 
 	private _getItemById(itemId: any): NgbNavItem | null {
-		return (this.items && this.items.find((item) => item.id === itemId)) || null;
-	}
+        throw new Error("STUB");
+    }
 }
 
 @Directive({
@@ -424,14 +350,8 @@ export class NgbNavLinkBase {
 	constructor(@Attribute('role') public role: string) {}
 
 	get tabindex() {
-		if (this.nav.keyboard === false) {
-			return this.navItem.disabled ? -1 : undefined;
-		}
-		if (this.nav._navigatingWithKeyboard) {
-			return -1;
-		}
-		return this.navItem.disabled || !this.navItem.active ? -1 : undefined;
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**

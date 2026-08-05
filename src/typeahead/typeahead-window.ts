@@ -117,17 +117,16 @@ export class NgbTypeaheadWindow implements OnInit {
 	@Output('activeChange') activeChangeEvent = new EventEmitter();
 
 	hasActive() {
-		return this.activeIdx > -1 && this.activeIdx < this.results.length;
-	}
+        throw new Error("STUB");
+    }
 
 	getActive() {
-		return this.results[this.activeIdx];
-	}
+        throw new Error("STUB");
+    }
 
 	markActive(activeIdx: number) {
-		this.activeIdx = activeIdx;
-		this._activeChanged();
-	}
+        throw new Error("STUB");
+    }
 
 	next() {
 		if (this.activeIdx === this.results.length - 1) {
@@ -139,28 +138,20 @@ export class NgbTypeaheadWindow implements OnInit {
 	}
 
 	prev() {
-		if (this.activeIdx < 0) {
-			this.activeIdx = this.results.length - 1;
-		} else if (this.activeIdx === 0) {
-			this.activeIdx = this.focusFirst ? this.results.length - 1 : -1;
-		} else {
-			this.activeIdx--;
-		}
-		this._activeChanged();
-	}
+        throw new Error("STUB");
+    }
 
 	resetActive() {
-		this.activeIdx = this.focusFirst ? 0 : -1;
-		this._activeChanged();
-	}
+        throw new Error("STUB");
+    }
 
 	select(item) {
-		this.selectEvent.emit(item);
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnInit() {
-		this.resetActive();
-	}
+        throw new Error("STUB");
+    }
 
 	private _activeChanged() {
 		this.activeChangeEvent.emit(this.activeIdx >= 0 ? this.id + '-' + this.activeIdx : undefined);

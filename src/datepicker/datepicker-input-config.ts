@@ -18,6 +18,6 @@ export class NgbInputDatepickerConfig extends NgbDatepickerConfig {
 	container: null | 'body';
 	positionTarget: string | HTMLElement;
 	placement: PlacementArray = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
-	popperOptions = (options: Partial<Options>) => options;
+	popperOptions = (options: Partial<Options>) => { throw new Error("STUB"); };
 	restoreFocus: true | HTMLElement | string = true;
 }

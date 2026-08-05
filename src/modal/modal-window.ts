@@ -108,180 +108,50 @@ export class NgbModalWindow implements OnInit, OnDestroy {
 	hidden = new Subject<void>();
 
 	get fullscreenClass(): string {
-		return this.fullscreen === true
-			? ' modal-fullscreen'
-			: isString(this.fullscreen)
-				? ` modal-fullscreen-${this.fullscreen}-down`
-				: '';
-	}
+        throw new Error("STUB");
+    }
 
 	dismiss(reason): void {
-		this.dismissEvent.emit(reason);
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnInit() {
-		this._elWithFocus = this._document.activeElement;
-		afterNextRender({ mixedReadWrite: () => this._show() }, { injector: this._injector });
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy() {
-		this._disableEventHandling();
-	}
+        throw new Error("STUB");
+    }
 
 	hide(): Observable<any> {
-		const { nativeElement } = this._elRef;
-		const context: NgbTransitionOptions<any> = { animation: this.animation, runningTransition: 'stop' };
-
-		const windowTransition$ = ngbRunTransition(
-			this._zone,
-			nativeElement,
-			() => nativeElement.classList.remove('show'),
-			context,
-		);
-		const dialogTransition$ = ngbRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
-
-		const transitions$ = zip(windowTransition$, dialogTransition$);
-		transitions$.subscribe(() => {
-			this.hidden.next();
-			this.hidden.complete();
-		});
-
-		this._disableEventHandling();
-		this._restoreFocus();
-
-		return transitions$;
-	}
+        throw new Error("STUB");
+    }
 
 	updateOptions(options: NgbModalUpdatableOptions): void {
-		WINDOW_ATTRIBUTES.forEach((optionName: string) => {
-			if (isDefined(options[optionName])) {
-				this[optionName] = options[optionName];
-			}
-		});
-		this._cdRef.markForCheck();
-	}
+        throw new Error("STUB");
+    }
 
 	private _show() {
-		const context: NgbTransitionOptions<any> = { animation: this.animation, runningTransition: 'continue' };
-
-		const windowTransition$ = ngbRunTransition(
-			this._zone,
-			this._elRef.nativeElement,
-			(element: HTMLElement, animation: boolean) => {
-				if (animation) {
-					reflow(element);
-				}
-				element.classList.add('show');
-			},
-			context,
-		);
-		const dialogTransition$ = ngbRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
-
-		zip(windowTransition$, dialogTransition$).subscribe(() => {
-			this.shown.next();
-			this.shown.complete();
-		});
-
-		this._enableEventHandling();
-		this._setFocus();
-	}
+        throw new Error("STUB");
+    }
 
 	private _enableEventHandling() {
-		const { nativeElement } = this._elRef;
-		this._zone.runOutsideAngular(() => {
-			fromEvent<KeyboardEvent>(nativeElement, 'keydown')
-				.pipe(
-					takeUntil(this._closed$),
-					filter((e) => e.key === 'Escape'),
-				)
-				.subscribe((event) => {
-					if (this.keyboard) {
-						requestAnimationFrame(() => {
-							if (!event.defaultPrevented) {
-								this._zone.run(() => this.dismiss(ModalDismissReasons.ESC));
-							}
-						});
-					} else if (this.backdrop === 'static') {
-						this._bumpBackdrop();
-					}
-				});
-
-			// We're listening to 'mousedown' and 'mouseup' to prevent modal from closing when pressing the mouse
-			// inside the modal dialog and releasing it outside
-			let preventClose = false;
-			fromEvent<MouseEvent>(this._dialogEl.nativeElement, 'mousedown')
-				.pipe(
-					takeUntil(this._closed$),
-					tap(() => (preventClose = false)),
-					switchMap(() => fromEvent<MouseEvent>(nativeElement, 'mouseup').pipe(takeUntil(this._closed$), take(1))),
-					filter(({ target }) => nativeElement === target),
-				)
-				.subscribe(() => {
-					preventClose = true;
-				});
-
-			// We're listening to 'click' to dismiss modal on modal window click, except when:
-			// 1. clicking on modal dialog itself
-			// 2. closing was prevented by mousedown/up handlers
-			// 3. clicking on scrollbar when the viewport is too small and modal doesn't fit (click is not triggered at all)
-			fromEvent<MouseEvent>(nativeElement, 'click')
-				.pipe(takeUntil(this._closed$))
-				.subscribe(({ target }) => {
-					if (nativeElement === target) {
-						if (this.backdrop === 'static') {
-							this._bumpBackdrop();
-						} else if (this.backdrop === true && !preventClose) {
-							this._zone.run(() => this.dismiss(ModalDismissReasons.BACKDROP_CLICK));
-						}
-					}
-
-					preventClose = false;
-				});
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	private _disableEventHandling() {
-		this._closed$.next();
-	}
+        throw new Error("STUB");
+    }
 
 	private _setFocus() {
-		const { nativeElement } = this._elRef;
-		if (!nativeElement.contains(document.activeElement)) {
-			const autoFocusable = nativeElement.querySelector(`[ngbAutofocus]`) as HTMLElement;
-			const firstFocusable = getFocusableBoundaryElements(nativeElement)[0];
-
-			const elementToFocus = autoFocusable || firstFocusable || nativeElement;
-			elementToFocus.focus();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _restoreFocus() {
-		const body = this._document.body;
-		const elWithFocus = this._elWithFocus;
-
-		let elementToFocus;
-		if (elWithFocus && elWithFocus['focus'] && body.contains(elWithFocus)) {
-			elementToFocus = elWithFocus;
-		} else {
-			elementToFocus = body;
-		}
-		this._zone.runOutsideAngular(() => {
-			setTimeout(() => elementToFocus.focus());
-			this._elWithFocus = null;
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	private _bumpBackdrop() {
-		if (this.backdrop === 'static') {
-			ngbRunTransition(
-				this._zone,
-				this._elRef.nativeElement,
-				({ classList }) => {
-					classList.add('modal-static');
-					return () => classList.remove('modal-static');
-				},
-				{ animation: this.animation, runningTransition: 'continue' },
-			);
-		}
-	}
+        throw new Error("STUB");
+    }
 }

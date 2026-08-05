@@ -87,16 +87,14 @@ export class NgbDatepickerNavigation {
 	@Output() select = new EventEmitter<NgbDate>();
 
 	onClickPrev(event: MouseEvent) {
-		(event.currentTarget as HTMLElement).focus();
-		this.navigate.emit(this.navigation.PREV);
-	}
+        throw new Error("STUB");
+    }
 
 	onClickNext(event: MouseEvent) {
-		(event.currentTarget as HTMLElement).focus();
-		this.navigate.emit(this.navigation.NEXT);
-	}
+        throw new Error("STUB");
+    }
 
 	idMonth(month: MonthViewModel) {
-		return month;
-	}
+        throw new Error("STUB");
+    }
 }

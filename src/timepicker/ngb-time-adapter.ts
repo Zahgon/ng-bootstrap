@@ -3,7 +3,7 @@ import { NgbTimeStruct } from './ngb-time-struct';
 import { isInteger } from '@ng-bootstrap/ng-bootstrap/utils';
 
 export function NGB_DATEPICKER_TIME_ADAPTER_FACTORY(): NgbTimeAdapter<any> {
-	return new NgbTimeStructAdapter();
+    throw new Error("STUB");
 }
 
 /**
@@ -38,17 +38,13 @@ export class NgbTimeStructAdapter extends NgbTimeAdapter<NgbTimeStruct> {
 	 * Converts a NgbTimeStruct value into NgbTimeStruct value
 	 */
 	fromModel(time: NgbTimeStruct | null): NgbTimeStruct | null {
-		return time && isInteger(time.hour) && isInteger(time.minute)
-			? { hour: time.hour, minute: time.minute, second: isInteger(time.second) ? time.second : <any>null }
-			: null;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Converts a NgbTimeStruct value into NgbTimeStruct value
 	 */
 	toModel(time: NgbTimeStruct | null): NgbTimeStruct | null {
-		return time && isInteger(time.hour) && isInteger(time.minute)
-			? { hour: time.hour, minute: time.minute, second: isInteger(time.second) ? time.second : <any>null }
-			: null;
-	}
+        throw new Error("STUB");
+    }
 }

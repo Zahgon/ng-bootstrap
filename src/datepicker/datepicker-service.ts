@@ -41,66 +41,38 @@ export class NgbDatepickerService {
 		[K in keyof DatepickerServiceInputs]: (v: DatepickerServiceInputs[K]) => Partial<DatepickerViewModel> | void;
 	} = {
 		dayTemplateData: (dayTemplateData: NgbDayTemplateData) => {
-			if (this._state.dayTemplateData !== dayTemplateData) {
-				return { dayTemplateData };
-			}
-		},
+            throw new Error("STUB");
+        },
 		displayMonths: (displayMonths: number) => {
-			displayMonths = toInteger(displayMonths);
-			if (isInteger(displayMonths) && displayMonths > 0 && this._state.displayMonths !== displayMonths) {
-				return { displayMonths };
-			}
-		},
+            throw new Error("STUB");
+        },
 		disabled: (disabled: boolean) => {
-			if (this._state.disabled !== disabled) {
-				return { disabled };
-			}
-		},
+            throw new Error("STUB");
+        },
 		firstDayOfWeek: (firstDayOfWeek: number) => {
-			firstDayOfWeek = toInteger(firstDayOfWeek);
-			if (isInteger(firstDayOfWeek) && firstDayOfWeek >= 0 && this._state.firstDayOfWeek !== firstDayOfWeek) {
-				return { firstDayOfWeek };
-			}
-		},
+            throw new Error("STUB");
+        },
 		focusVisible: (focusVisible: boolean) => {
-			if (this._state.focusVisible !== focusVisible && !this._state.disabled) {
-				return { focusVisible };
-			}
-		},
+            throw new Error("STUB");
+        },
 		markDisabled: (markDisabled: NgbMarkDisabled) => {
-			if (this._state.markDisabled !== markDisabled) {
-				return { markDisabled };
-			}
-		},
+            throw new Error("STUB");
+        },
 		maxDate: (date: NgbDate | null) => {
-			const maxDate = this.toValidDate(date, null);
-			if (isChangedDate(this._state.maxDate, maxDate)) {
-				return { maxDate };
-			}
-		},
+            throw new Error("STUB");
+        },
 		minDate: (date: NgbDate | null) => {
-			const minDate = this.toValidDate(date, null);
-			if (isChangedDate(this._state.minDate, minDate)) {
-				return { minDate };
-			}
-		},
+            throw new Error("STUB");
+        },
 		navigation: (navigation: 'select' | 'arrows' | 'none') => {
-			if (this._state.navigation !== navigation) {
-				return { navigation };
-			}
-		},
+            throw new Error("STUB");
+        },
 		outsideDays: (outsideDays: 'visible' | 'collapsed' | 'hidden') => {
-			if (this._state.outsideDays !== outsideDays) {
-				return { outsideDays };
-			}
-		},
+            throw new Error("STUB");
+        },
 		weekdays: (weekdays: boolean | Exclude<Intl.DateTimeFormatOptions['weekday'], undefined>) => {
-			const weekdayWidth = weekdays === true || weekdays === false ? 'narrow' : weekdays;
-			const weekdaysVisible = weekdays === true || weekdays === false ? weekdays : true;
-			if (this._state.weekdayWidth !== weekdayWidth || this._state.weekdaysVisible !== weekdaysVisible) {
-				return { weekdayWidth, weekdaysVisible };
-			}
-		},
+            throw new Error("STUB");
+        },
 	};
 
 	private _calendar = inject(NgbCalendar);
@@ -134,17 +106,17 @@ export class NgbDatepickerService {
 	};
 
 	get model$(): Observable<DatepickerViewModel> {
-		return this._model$.pipe(filter((model) => model.months.length > 0));
-	}
+        throw new Error("STUB");
+    }
 
 	get dateSelect$(): Observable<NgbDate> {
-		return this._dateSelect$.pipe(filter((date) => date !== null));
-	}
+        throw new Error("STUB");
+    }
 
 	set(options: DatepickerServiceInputs) {
 		let patch = Object.keys(options)
-			.map((key) => this._VALIDATORS[key](options[key]))
-			.reduce((obj, part) => ({ ...obj, ...part }), {});
+			.map((key) => { throw new Error("STUB"); })
+			.reduce((obj, part) => { throw new Error("STUB"); }, {});
 
 		if (Object.keys(patch).length > 0) {
 			this._nextState(patch);
@@ -159,34 +131,16 @@ export class NgbDatepickerService {
 	}
 
 	focusSelect() {
-		if (isDateSelectable(this._state.focusDate, this._state)) {
-			this.select(this._state.focusDate, { emitEvent: true });
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	open(date?: NgbDate | null) {
-		const firstDate = this.toValidDate(date, this._calendar.getToday());
-		if (
-			firstDate != null &&
-			!this._state.disabled &&
-			(!this._state.firstDate || isChangedMonth(this._state.firstDate, firstDate))
-		) {
-			this._nextState({ firstDate });
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	select(date?: NgbDate | null, options: { emitEvent?: boolean } = {}) {
-		const selectedDate = this.toValidDate(date, null);
-		if (selectedDate != null && !this._state.disabled) {
-			if (isChangedDate(this._state.selectedDate, selectedDate)) {
-				this._nextState({ selectedDate });
-			}
-
-			if (options.emitEvent && isDateSelectable(selectedDate, this._state)) {
-				this._dateSelect$.next(selectedDate);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	toValidDate(date?: NgbDateStruct | null, defaultValue?: NgbDate | null): NgbDate | null {
 		const ngbDate = NgbDate.from(date);
@@ -215,39 +169,8 @@ export class NgbDatepickerService {
 	private _patchContexts(state: DatepickerViewModel) {
 		const { months, displayMonths, selectedDate, focusDate, focusVisible, disabled, outsideDays } = state;
 		state.months.forEach((month) => {
-			month.weeks.forEach((week) => {
-				week.days.forEach((day) => {
-					// patch focus flag
-					if (focusDate) {
-						day.context.focused = focusDate.equals(day.date) && focusVisible;
-					}
-
-					// calculating tabindex
-					day.tabindex =
-						!disabled && focusDate && day.date.equals(focusDate) && focusDate.month === month.number ? 0 : -1;
-
-					// override context disabled
-					if (disabled === true) {
-						day.context.disabled = true;
-					}
-
-					// patch selection flag
-					if (selectedDate !== undefined) {
-						day.context.selected = selectedDate !== null && selectedDate.equals(day.date);
-					}
-
-					// visibility
-					if (month.number !== day.date.month) {
-						day.hidden =
-							outsideDays === 'hidden' ||
-							outsideDays === 'collapsed' ||
-							(displayMonths > 1 &&
-								day.date.after(months[0].firstDate) &&
-								day.date.before(months[displayMonths - 1].lastDate));
-					}
-				});
-			});
-		});
+            throw new Error("STUB");
+        });
 	}
 
 	private _updateState(patch: Partial<DatepickerViewModel>): DatepickerViewModel {

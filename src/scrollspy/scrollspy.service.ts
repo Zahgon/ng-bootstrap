@@ -124,25 +124,22 @@ export class NgbScrollSpyService implements NgbScrollSpyRef, OnDestroy {
 	private _zone = inject(NgZone);
 
 	constructor() {
-		this._distinctActive$.pipe(takeUntilDestroyed()).subscribe((active) => {
-			this._active = active;
-			this._changeDetectorRef?.markForCheck();
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Getter for the currently active fragment id. Returns empty string if none.
 	 */
 	get active(): string {
-		return this._active;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * An observable emitting the currently active fragment. Emits empty string if none.
 	 */
 	get active$(): Observable<string> {
-		return this._distinctActive$;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Starts the scrollspy service and observes specified fragments.
@@ -151,54 +148,15 @@ export class NgbScrollSpyService implements NgbScrollSpyRef, OnDestroy {
 	 * See the [`NgbScrollSpyOptions`](#/components/scrollspy/api#NgbScrollSpyOptions) interface for more details.
 	 */
 	start(options?: NgbScrollSpyOptions) {
-		if (isPlatformBrowser(this._platformId)) {
-			this._cleanup();
-
-			const { root, rootMargin, scrollBehavior, threshold, fragments, changeDetectorRef, processChanges } = {
-				...options,
-			};
-			this._containerElement = root ?? this._document.documentElement;
-			this._changeDetectorRef = changeDetectorRef ?? this._diChangeDetectorRef;
-			this._scrollBehavior = scrollBehavior ?? this._config.scrollBehavior;
-			const processChangesFn = processChanges ?? this._config.processChanges;
-
-			const context = {};
-			this._observer = new IntersectionObserver(
-				(entries) =>
-					processChangesFn(
-						{
-							entries,
-							rootElement: this._containerElement!,
-							fragments: this._fragments,
-							scrollSpy: this,
-							options: { ...options },
-						},
-						(active: string) => this._active$.next(active),
-						context,
-					),
-				{
-					root: root ?? this._document,
-					...(rootMargin && { rootMargin }),
-					...(threshold && { threshold }),
-				},
-			);
-
-			// merging fragments added before starting and the ones passed as options
-			for (const element of [...this._preRegisteredFragments, ...(fragments ?? [])]) {
-				this.observe(element);
-			}
-
-			this._preRegisteredFragments.clear();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Stops the service and unobserves all fragments.
 	 */
 	stop() {
-		this._cleanup();
-		this._active$.next('');
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Scrolls to a fragment, it must be known to the service and contained in the root element.
@@ -224,25 +182,8 @@ export class NgbScrollSpyService implements NgbScrollSpyRef, OnDestroy {
 				// and there is no clean way to do it at the moment
 				const containerElement = this._containerElement;
 				this._zone.runOutsideAngular(() => {
-					const updateActiveWhenScrollingIsFinished = () => {
-						const sameOffsetAsLastTime = lastOffset === containerElement.scrollTop;
-
-						if (sameOffsetAsLastTime) {
-							matchCounter++;
-						} else {
-							matchCounter = 0;
-						}
-
-						if (!sameOffsetAsLastTime || (sameOffsetAsLastTime && matchCounter < MATCH_THRESHOLD)) {
-							lastOffset = containerElement.scrollTop;
-
-							requestAnimationFrame(updateActiveWhenScrollingIsFinished);
-						} else {
-							this._zone.run(() => this._active$.next(fragmentElement.id));
-						}
-					};
-					requestAnimationFrame(updateActiveWhenScrollingIsFinished);
-				});
+                    throw new Error("STUB");
+                });
 			}
 		}
 	}
@@ -252,53 +193,22 @@ export class NgbScrollSpyService implements NgbScrollSpyRef, OnDestroy {
 	 * An id or an element reference can be passed.
 	 */
 	observe(fragment: string | HTMLElement) {
-		if (!this._observer) {
-			this._preRegisteredFragments.add(fragment);
-			return;
-		}
-
-		const fragmentElement = toFragmentElement(this._containerElement, fragment);
-
-		if (fragmentElement && !this._fragments.has(fragmentElement)) {
-			this._fragments.add(fragmentElement);
-			this._observer.observe(fragmentElement);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Unobserves a fragment.
 	 * An id or an element reference can be passed.
 	 */
 	unobserve(fragment: string | HTMLElement) {
-		if (!this._observer) {
-			this._preRegisteredFragments.delete(fragment);
-			return;
-		}
-
-		const fragmentElement = toFragmentElement(this._containerElement, fragment);
-
-		if (fragmentElement) {
-			this._fragments.delete(fragmentElement);
-
-			// we're removing and re-adding all current fragments to recompute active one
-			this._observer.disconnect();
-
-			for (const fragment of this._fragments) {
-				this._observer.observe(fragment);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy() {
-		this._cleanup();
-	}
+        throw new Error("STUB");
+    }
 
 	private _cleanup() {
-		this._fragments.clear();
-		this._observer?.disconnect();
-		this._changeDetectorRef = this._diChangeDetectorRef;
-		this._scrollBehavior = this._config.scrollBehavior;
-		this._observer = null;
-		this._containerElement = null;
-	}
+        throw new Error("STUB");
+    }
 }

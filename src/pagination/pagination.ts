@@ -360,64 +360,39 @@ export class NgbPagination implements OnChanges {
 	@Input() size = this._config.size;
 
 	hasPrevious(): boolean {
-		return this.page > 1;
-	}
+        throw new Error("STUB");
+    }
 
 	hasNext(): boolean {
-		return this.page < this.pageCount;
-	}
+        throw new Error("STUB");
+    }
 
 	nextDisabled(): boolean {
-		return !this.hasNext() || this.disabled;
-	}
+        throw new Error("STUB");
+    }
 
 	previousDisabled(): boolean {
-		return !this.hasPrevious() || this.disabled;
-	}
+        throw new Error("STUB");
+    }
 
 	selectPage(pageNumber: number): void {
-		this._updatePages(pageNumber);
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges(changes: SimpleChanges): void {
-		this._updatePages(this.page);
-	}
+        throw new Error("STUB");
+    }
 
 	isEllipsis(pageNumber): boolean {
-		return pageNumber === -1;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Appends ellipses and first/last page number to the displayed pages
 	 */
 	private _applyEllipses(start: number, end: number) {
-		if (this.ellipses) {
-			if (start > 0) {
-				// The first page will always be included. If the displayed range
-				// starts after the third page, then add ellipsis. But if the range
-				// starts on the third page, then add the second page instead of
-				// an ellipsis, because the ellipsis would only hide a single page.
-				if (start > 2) {
-					this.pages.unshift(-1);
-				} else if (start === 2) {
-					this.pages.unshift(2);
-				}
-				this.pages.unshift(1);
-			}
-			if (end < this.pageCount) {
-				// The last page will always be included. If the displayed range
-				// ends before the third-last page, then add ellipsis. But if the range
-				// ends on third-last page, then add the second-last page instead of
-				// an ellipsis, because the ellipsis would only hide a single page.
-				if (end < this.pageCount - 2) {
-					this.pages.push(-1);
-				} else if (end === this.pageCount - 2) {
-					this.pages.push(this.pageCount - 1);
-				}
-				this.pages.push(this.pageCount);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Rotates page numbers based on maxSize items visible.
@@ -428,78 +403,21 @@ export class NgbPagination implements OnChanges {
 	 * [4,5,*6*,7] for maxSize = 4
 	 */
 	private _applyRotation(): [number, number] {
-		let start = 0;
-		let end = this.pageCount;
-		let leftOffset = Math.floor(this.maxSize / 2);
-		let rightOffset = this.maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
-
-		if (this.page <= leftOffset) {
-			// very beginning, no rotation -> [0..maxSize]
-			end = this.maxSize;
-		} else if (this.pageCount - this.page < leftOffset) {
-			// very end, no rotation -> [len-maxSize..len]
-			start = this.pageCount - this.maxSize;
-		} else {
-			// rotate
-			start = this.page - leftOffset - 1;
-			end = this.page + rightOffset;
-		}
-
-		return [start, end];
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Paginates page numbers based on maxSize items per page.
 	 */
 	private _applyPagination(): [number, number] {
-		let page = Math.ceil(this.page / this.maxSize) - 1;
-		let start = page * this.maxSize;
-		let end = start + this.maxSize;
-
-		return [start, end];
-	}
+        throw new Error("STUB");
+    }
 
 	private _setPageInRange(newPageNo) {
-		const prevPageNo = this.page;
-		this.page = getValueInRange(newPageNo, this.pageCount, 1);
-
-		if (this.page !== prevPageNo && isNumber(this.collectionSize)) {
-			this.pageChange.emit(this.page);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _updatePages(newPage: number) {
-		this.pageCount = Math.ceil(this.collectionSize / this.pageSize);
-
-		if (!isNumber(this.pageCount)) {
-			this.pageCount = 0;
-		}
-
-		// fill-in model needed to render pages
-		this.pages.length = 0;
-		for (let i = 1; i <= this.pageCount; i++) {
-			this.pages.push(i);
-		}
-
-		// set page within 1..max range
-		this._setPageInRange(newPage);
-
-		// apply maxSize if necessary
-		if (this.maxSize > 0 && this.pageCount > this.maxSize) {
-			let start = 0;
-			let end = this.pageCount;
-
-			// either paginating or rotating page numbers
-			if (this.rotate) {
-				[start, end] = this._applyRotation();
-			} else {
-				[start, end] = this._applyPagination();
-			}
-
-			this.pages = this.pages.slice(start, end);
-
-			// adding ellipses
-			this._applyEllipses(start, end);
-		}
-	}
+        throw new Error("STUB");
+    }
 }

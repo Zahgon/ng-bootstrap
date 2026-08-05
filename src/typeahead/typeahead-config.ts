@@ -16,5 +16,5 @@ export class NgbTypeaheadConfig {
 	selectOnExact = false;
 	showHint = false;
 	placement: PlacementArray = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
-	popperOptions = (options: Partial<Options>) => options;
+	popperOptions = (options: Partial<Options>) => { throw new Error("STUB"); };
 }

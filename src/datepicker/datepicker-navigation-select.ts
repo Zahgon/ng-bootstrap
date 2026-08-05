@@ -66,23 +66,14 @@ export class NgbDatepickerNavigationSelect implements AfterViewChecked {
 	@ViewChild('year', { static: true, read: ElementRef }) yearSelect: ElementRef<HTMLSelectElement>;
 
 	changeMonth(month: string) {
-		this.select.emit(new NgbDate(this.date.year, toInteger(month), 1));
-	}
+        throw new Error("STUB");
+    }
 
 	changeYear(year: string) {
-		this.select.emit(new NgbDate(toInteger(year), this.date.month, 1));
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterViewChecked() {
-		if (this.date) {
-			if (this.date.month !== this._month) {
-				this._month = this.date.month;
-				this.monthSelect.nativeElement.value = `${this._month}`;
-			}
-			if (this.date.year !== this._year) {
-				this._year = this.date.year;
-				this.yearSelect.nativeElement.value = `${this._year}`;
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 }

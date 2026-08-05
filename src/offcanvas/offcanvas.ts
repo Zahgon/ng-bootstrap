@@ -28,28 +28,27 @@ export class NgbOffcanvas {
 	 * options.
 	 */
 	open(content: any, options: NgbOffcanvasOptions = {}): NgbOffcanvasRef {
-		const combinedOptions = { ...this._config, animation: this._config.animation, ...options };
-		return this._offcanvasStack.open(this._injector, content, combinedOptions);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns an observable that holds the active offcanvas instance.
 	 */
 	get activeInstance() {
-		return this._offcanvasStack.activeInstance;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Dismisses the currently displayed offcanvas with the supplied reason.
 	 */
 	dismiss(reason?: any) {
-		this._offcanvasStack.dismiss(reason);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Indicates if there is currently an open offcanvas in the application.
 	 */
 	hasOpenOffcanvas(): boolean {
-		return this._offcanvasStack.hasOpenOffcanvas();
-	}
+        throw new Error("STUB");
+    }
 }

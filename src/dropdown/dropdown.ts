@@ -64,12 +64,12 @@ export class NgbDropdownItem {
 
 	@Input()
 	set disabled(value: boolean) {
-		this._disabled = <any>value === '' || value === true; // accept an empty attribute as true
-	}
+        throw new Error("STUB");
+    }
 
 	get disabled(): boolean {
-		return this._disabled;
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -150,7 +150,7 @@ export class NgbDropdownAnchor {
 		'(keydown.Tab)': 'dropdown.onKeyDown($any($event))',
 		'(keydown.Shift.Tab)': 'dropdown.onKeyDown($any($event))',
 	},
-	providers: [{ provide: NgbDropdownAnchor, useExisting: forwardRef(() => NgbDropdownToggle) }],
+	providers: [{ provide: NgbDropdownAnchor, useExisting: forwardRef(() => { throw new Error("STUB"); }) }],
 })
 export class NgbDropdownToggle extends NgbDropdownAnchor {}
 
@@ -254,336 +254,90 @@ export class NgbDropdown implements OnInit, AfterContentInit, OnChanges, OnDestr
 	@Output() openChange = new EventEmitter<boolean>();
 
 	ngOnInit(): void {
-		if (!this.display) {
-			this.display = this._nativeElement.closest('.navbar') ? 'static' : 'dynamic';
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterContentInit() {
-		afterNextRender(
-			{
-				write: () => {
-					this._applyPlacementClasses();
-					if (this._open) {
-						this._setCloseHandlers();
-					}
-				},
-			},
-			{ injector: this._injector },
-		);
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes.container && this._open) {
-			this._applyContainer(this.container);
-		}
-
-		if (changes.placement && !changes.placement.firstChange) {
-			this._positioning.setOptions({
-				hostElement: this._anchor.nativeElement,
-				targetElement: this._bodyContainer || this._menu.nativeElement,
-				placement: this.placement,
-			});
-			this._applyPlacementClasses();
-		}
-
-		if (changes.dropdownClass) {
-			const { currentValue, previousValue } = changes.dropdownClass;
-			this._applyCustomDropdownClass(currentValue, previousValue);
-		}
-
-		if (changes.autoClose && this._open) {
-			this.autoClose = changes.autoClose.currentValue;
-			this._setCloseHandlers();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Checks if the dropdown menu is open.
 	 */
 	isOpen(): boolean {
-		return this._open;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Opens the dropdown menu.
 	 */
 	open(): void {
-		if (!this._open) {
-			this._open = true;
-			this._applyContainer(this.container);
-			this.openChange.emit(true);
-			this._setCloseHandlers();
-			if (this._anchor) {
-				this._anchor.nativeElement.focus();
-				if (this.display === 'dynamic') {
-					this._ngZone.runOutsideAngular(() => {
-						this._positioning.createPopper({
-							hostElement: this._anchor.nativeElement,
-							targetElement: this._bodyContainer || this._menu.nativeElement,
-							placement: this.placement,
-							updatePopperOptions: (options) => this.popperOptions(addPopperOffset([0, 2])(options)),
-						});
-						this._applyPlacementClasses();
-						this._afterRenderRef = afterEveryRender(
-							{
-								write: () => {
-									this._positionMenu();
-								},
-							},
-							{ injector: this._injector },
-						);
-					});
-				}
-			}
-			this._changeDetector.markForCheck();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _setCloseHandlers() {
-		this._destroyCloseHandlers$.next(); // destroy any existing close handlers
-
-		ngbAutoClose(
-			this._ngZone,
-			this._document,
-			this.autoClose,
-			(source: SOURCE) => {
-				this.close();
-				if (source === SOURCE.ESCAPE) {
-					this._anchor.nativeElement.focus();
-				}
-			},
-			this._destroyCloseHandlers$,
-			this._menu ? [this._menu.nativeElement] : [],
-			this._anchor ? [this._anchor.nativeElement] : [],
-			'.dropdown-item,.dropdown-divider',
-		);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Closes the dropdown menu.
 	 */
 	close(): void {
-		if (this._open) {
-			this._open = false;
-			this._resetContainer();
-			this._positioning.destroy();
-			this._afterRenderRef?.destroy();
-			this._destroyCloseHandlers$.next();
-			this.openChange.emit(false);
-			this._changeDetector.markForCheck();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Toggles the dropdown menu.
 	 */
 	toggle(): void {
-		if (this.isOpen()) {
-			this.close();
-		} else {
-			this.open();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy() {
-		this.close();
-	}
+        throw new Error("STUB");
+    }
 
 	onKeyDown(event: KeyboardEvent) {
-		const { key } = event;
-		const itemElements = this._getMenuElements();
-
-		let position = -1;
-		let itemElement: HTMLElement | null = null;
-		const isEventFromToggle = this._isEventFromToggle(event);
-
-		if (!isEventFromToggle && itemElements.length) {
-			itemElements.forEach((item, index) => {
-				if (item.contains(event.target as HTMLElement)) {
-					itemElement = item;
-				}
-				if (item === getActiveElement(this._document)) {
-					position = index;
-				}
-			});
-		}
-
-		// closing on Enter / Space
-		if (key === ' ' || key === 'Enter') {
-			if (itemElement && (this.autoClose === true || this.autoClose === 'inside')) {
-				// Item is either a button or a link, so click will be triggered by the browser on Enter or Space.
-				// So we have to register a one-time click handler that will fire after any user defined click handlers
-				// to close the dropdown
-				fromEvent(itemElement, 'click')
-					.pipe(take(1))
-					.subscribe(() => this.close());
-			}
-			return;
-		}
-
-		if (key === 'Tab') {
-			if (event.target && this.isOpen() && this.autoClose) {
-				if (this._anchor.nativeElement === event.target) {
-					if (this.container === 'body' && !event.shiftKey) {
-						/* This case is special: user is using [Tab] from the anchor/toggle.
-               User expects the next focusable element in the dropdown menu to get focus.
-               But the menu is not a sibling to anchor/toggle, it is at the end of the body.
-               Trick is to synchronously focus the menu element, and let the [keydown.Tab] go
-               so that browser will focus the proper element (first one focusable in the menu) */
-						this._menu.nativeElement.setAttribute('tabindex', '0');
-						this._menu.nativeElement.focus();
-						this._menu.nativeElement.removeAttribute('tabindex');
-					} else if (event.shiftKey) {
-						this.close();
-					}
-					return;
-				} else if (this.container === 'body') {
-					const focusableElements = this._menu.nativeElement.querySelectorAll(FOCUSABLE_ELEMENTS_SELECTOR);
-					if (event.shiftKey && event.target === focusableElements[0]) {
-						this._anchor.nativeElement.focus();
-						event.preventDefault();
-					} else if (!event.shiftKey && event.target === focusableElements[focusableElements.length - 1]) {
-						this._anchor.nativeElement.focus();
-						this.close();
-					}
-				} else {
-					fromEvent<FocusEvent>(event.target as HTMLElement, 'focusout')
-						.pipe(take(1))
-						.subscribe(({ relatedTarget }) => {
-							if (!this._nativeElement.contains(relatedTarget as HTMLElement)) {
-								this.close();
-							}
-						});
-				}
-			}
-			return;
-		}
-
-		// opening / navigating
-		if (isEventFromToggle || itemElement) {
-			this.open();
-
-			if (itemElements.length) {
-				switch (key) {
-					case 'ArrowDown':
-						position = Math.min(position + 1, itemElements.length - 1);
-						break;
-					case 'ArrowUp':
-						if (this._isDropup() && position === -1) {
-							position = itemElements.length - 1;
-							break;
-						}
-						position = Math.max(position - 1, 0);
-						break;
-					case 'Home':
-						position = 0;
-						break;
-					case 'End':
-						position = itemElements.length - 1;
-						break;
-				}
-				itemElements[position].focus();
-			}
-			event.preventDefault();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _isDropup(): boolean {
-		return this._nativeElement.classList.contains('dropup');
-	}
+        throw new Error("STUB");
+    }
 
 	private _isEventFromToggle(event: KeyboardEvent) {
-		return this._anchor.nativeElement.contains(event.target as HTMLElement);
-	}
+        throw new Error("STUB");
+    }
 
 	private _getMenuElements(): HTMLElement[] {
-		return this._menu
-			? this._menu.menuItems.filter(({ disabled }) => !disabled).map(({ nativeElement }) => nativeElement)
-			: [];
-	}
+        throw new Error("STUB");
+    }
 
 	private _positionMenu() {
-		const menu = this._menu;
-		if (this.isOpen() && menu) {
-			if (this.display === 'dynamic') {
-				this._positioning.update();
-				this._applyPlacementClasses();
-			} else {
-				this._applyPlacementClasses(this._getFirstPlacement(this.placement));
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _getFirstPlacement(placement: PlacementArray): Placement {
-		return Array.isArray(placement) ? placement[0] : (placement.split(' ')[0] as Placement);
-	}
+        throw new Error("STUB");
+    }
 
 	private _resetContainer() {
-		if (this._menu) {
-			this._nativeElement.appendChild(this._menu.nativeElement);
-		}
-		if (this._bodyContainer) {
-			this._document.body.removeChild(this._bodyContainer);
-			this._bodyContainer = null;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _applyContainer(container: null | 'body' = null) {
-		this._resetContainer();
-		if (container === 'body') {
-			const dropdownMenuElement = this._menu.nativeElement;
-			const bodyContainer = (this._bodyContainer = this._bodyContainer || this._document.createElement('div'));
-
-			// Override some styles to have the positioning working
-			bodyContainer.style.position = 'absolute';
-			dropdownMenuElement.style.position = 'static';
-			bodyContainer.style.zIndex = '1055';
-
-			bodyContainer.appendChild(dropdownMenuElement);
-			this._document.body.appendChild(bodyContainer);
-		}
-
-		this._applyCustomDropdownClass(this.dropdownClass);
-	}
+        throw new Error("STUB");
+    }
 
 	private _applyCustomDropdownClass(newClass: string, oldClass?: string) {
-		const targetElement = this.container === 'body' ? this._bodyContainer : this._nativeElement;
-		if (targetElement) {
-			if (oldClass) {
-				targetElement.classList.remove(oldClass);
-			}
-			if (newClass) {
-				targetElement.classList.add(newClass);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _applyPlacementClasses(placement?: Placement | null) {
-		if (this._menu) {
-			if (!placement) {
-				placement = this._getFirstPlacement(this.placement);
-			}
-
-			// remove the current placement classes
-			this._nativeElement.classList.remove('dropup', 'dropdown');
-			if (this.display === 'static') {
-				this._menu.nativeElement.setAttribute('data-bs-popper', 'static');
-			} else {
-				this._menu.nativeElement.removeAttribute('data-bs-popper');
-			}
-
-			/*
-			 * apply the new placement
-			 * in case of top use up-arrow or down-arrow otherwise
-			 */
-			const dropdownClass = placement.search('^top') !== -1 ? 'dropup' : 'dropdown';
-			this._nativeElement.classList.add(dropdownClass);
-
-			if (this._bodyContainer) {
-				this._bodyContainer.classList.remove('dropup', 'dropdown');
-				this._bodyContainer.classList.add(dropdownClass);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 }

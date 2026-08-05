@@ -168,24 +168,24 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 	 */
 	@Input()
 	set interval(value: number) {
-		this._interval$.next(value);
-	}
+        throw new Error("STUB");
+    }
 
 	get interval() {
-		return this._interval$.value;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, will 'wrap' the carousel by switching from the last slide back to the first.
 	 */
 	@Input()
 	set wrap(value: boolean) {
-		this._wrap$.next(value);
-	}
+        throw new Error("STUB");
+    }
 
 	get wrap() {
-		return this._wrap$.value;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, allows to interact with carousel using keyboard 'arrow left' and 'arrow right'.
@@ -199,24 +199,24 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 	 */
 	@Input()
 	set pauseOnHover(value: boolean) {
-		this._pauseOnHover$.next(value);
-	}
+        throw new Error("STUB");
+    }
 
 	get pauseOnHover() {
-		return this._pauseOnHover$.value;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, will pause slide switching when the focus is inside the carousel.
 	 */
 	@Input()
 	set pauseOnFocus(value: boolean) {
-		this._pauseOnFocus$.next(value);
-	}
+        throw new Error("STUB");
+    }
 
 	get pauseOnFocus() {
-		return this._pauseOnFocus$.value;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, 'previous' and 'next' navigation arrows will be visible on the slide.
@@ -255,136 +255,54 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 	private _transitionIds: [string, string] | null = null;
 
 	set mouseHover(value: boolean) {
-		this._mouseHover$.next(value);
-	}
+        throw new Error("STUB");
+    }
 
 	get mouseHover() {
-		return this._mouseHover$.value;
-	}
+        throw new Error("STUB");
+    }
 
 	set focused(value: boolean) {
-		this._focused$.next(value);
-	}
+        throw new Error("STUB");
+    }
 
 	get focused() {
-		return this._focused$.value;
-	}
+        throw new Error("STUB");
+    }
 
 	arrowLeft() {
-		this.focus();
-		this.prev(NgbSlideEventSource.ARROW_LEFT);
-	}
+        throw new Error("STUB");
+    }
 
 	arrowRight() {
-		this.focus();
-		this.next(NgbSlideEventSource.ARROW_RIGHT);
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterContentInit() {
-		// setInterval() doesn't play well with SSR and protractor,
-		// so we should run it in the browser and outside Angular
-		if (isPlatformBrowser(this._platformId)) {
-			this._ngZone.runOutsideAngular(() => {
-				const hasNextSlide$ = combineLatest([
-					this.slide.pipe(
-						map((slideEvent) => slideEvent.current),
-						startWith(this.activeId),
-					),
-					this._wrap$,
-					this.slides.changes.pipe(startWith(null)),
-				]).pipe(
-					map(([currentSlideId, wrap]) => {
-						const slideArr = this.slides.toArray();
-						const currentSlideIdx = this._getSlideIdxById(currentSlideId);
-						return wrap ? slideArr.length > 1 : currentSlideIdx < slideArr.length - 1;
-					}),
-					distinctUntilChanged(),
-				);
-				combineLatest([
-					this._pause$,
-					this._pauseOnHover$,
-					this._mouseHover$,
-					this._pauseOnFocus$,
-					this._focused$,
-					this._interval$,
-					hasNextSlide$,
-				])
-					.pipe(
-						map(
-							([pause, pauseOnHover, mouseHover, pauseOnFocus, focused, interval, hasNextSlide]: [
-								boolean,
-								boolean,
-								boolean,
-								boolean,
-								boolean,
-								number,
-								boolean,
-							]) =>
-								pause || (pauseOnHover && mouseHover) || (pauseOnFocus && focused) || !hasNextSlide ? 0 : interval,
-						),
-
-						distinctUntilChanged(),
-						switchMap((interval) => (interval > 0 ? timer(interval, interval) : NEVER)),
-						takeUntilDestroyed(this._destroyRef),
-					)
-					.subscribe(() => this._ngZone.run(() => this.next(NgbSlideEventSource.TIMER)));
-			});
-		}
-
-		this.slides.changes.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
-			this._transitionIds?.forEach((id) => ngbCompleteTransition(this._getSlideElement(id)));
-			this._transitionIds = null;
-
-			this._cd.markForCheck();
-
-			// The following code need to be done asynchronously, after the dom becomes stable,
-			// otherwise all changes will be undone.
-			afterNextRender(
-				{
-					mixedReadWrite: () => {
-						for (const { id } of this.slides) {
-							const element = this._getSlideElement(id);
-							if (id === this.activeId) {
-								element.classList.add('active');
-							} else {
-								element.classList.remove('active');
-							}
-						}
-					},
-				},
-				{ injector: this._injector },
-			);
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterContentChecked() {
-		let activeSlide = this._getSlideById(this.activeId);
-		this.activeId = activeSlide ? activeSlide.id : this.slides.length ? this.slides.first.id : '';
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterViewInit() {
-		// Initialize the 'active' class (not managed by the template)
-		if (this.activeId) {
-			const element = this._getSlideElement(this.activeId);
-			if (element) {
-				element.classList.add('active');
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Navigates to a slide with the specified identifier.
 	 */
 	select(slideId: string, source?: NgbSlideEventSource) {
-		this._cycleToSelected(slideId, this._getSlideEventDirection(this.activeId, slideId), source);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Navigates to the previous slide.
 	 */
 	prev(source?: NgbSlideEventSource) {
-		this._cycleToSelected(this._getPrevSlide(this.activeId), NgbSlideEventDirection.END, source);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Navigates to the next slide.
@@ -397,15 +315,15 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 	 * Pauses cycling through the slides.
 	 */
 	pause() {
-		this._pause$.next(true);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Restarts cycling through the slides from start to end.
 	 */
 	cycle() {
-		this._pause$.next(false);
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Set the focus on the carousel.
@@ -448,8 +366,8 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 					options,
 				);
 				activeSlideTransition.subscribe(() => {
-					activeSlide.slid.emit({ isShown: false, direction, source });
-				});
+                    throw new Error("STUB");
+                });
 				transitions.push(activeSlideTransition);
 			}
 
@@ -463,22 +381,15 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 				options,
 			);
 			transition.subscribe(() => {
-				nextSlide?.slid.emit({ isShown: true, direction, source });
-			});
+                throw new Error("STUB");
+            });
 			transitions.push(transition);
 
 			zip(...transitions)
 				.pipe(take(1))
 				.subscribe(() => {
-					this._transitionIds = null;
-					this.slid.emit({
-						prev: previousId,
-						current: selectedSlide!.id,
-						direction: direction,
-						paused: this._pause$.value,
-						source,
-					});
-				});
+                    throw new Error("STUB");
+                });
 		}
 
 		// we get here after the interval fires or any external API call like next(), prev() or select()
@@ -486,14 +397,11 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 	}
 
 	private _getSlideEventDirection(currentActiveSlideId: string, nextActiveSlideId: string): NgbSlideEventDirection {
-		const currentActiveSlideIdx = this._getSlideIdxById(currentActiveSlideId);
-		const nextActiveSlideIdx = this._getSlideIdxById(nextActiveSlideId);
-
-		return currentActiveSlideIdx > nextActiveSlideIdx ? NgbSlideEventDirection.END : NgbSlideEventDirection.START;
-	}
+        throw new Error("STUB");
+    }
 
 	private _getSlideById(slideId: string): NgbSlide | null {
-		return this.slides.find((slide) => slide.id === slideId) || null;
+		return this.slides.find((slide) => { throw new Error("STUB"); }) || null;
 	}
 
 	private _getSlideIdxById(slideId: string): number {
@@ -514,16 +422,8 @@ export class NgbCarousel implements AfterContentChecked, AfterContentInit, After
 	}
 
 	private _getPrevSlide(currentSlideId: string): string {
-		const slideArr = this.slides.toArray();
-		const currentSlideIdx = this._getSlideIdxById(currentSlideId);
-		const isFirstSlide = currentSlideIdx === 0;
-
-		return isFirstSlide
-			? this.wrap
-				? slideArr[slideArr.length - 1].id
-				: slideArr[0].id
-			: slideArr[currentSlideIdx - 1].id;
-	}
+        throw new Error("STUB");
+    }
 
 	private _getSlideElement(slideId: string): HTMLElement {
 		return this._container.nativeElement.querySelector(`#slide-${slideId}`);

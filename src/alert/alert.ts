@@ -84,11 +84,6 @@ export class NgbAlert {
 	 * @since 8.0.0
 	 */
 	close(): Observable<void> {
-		const transition = ngbRunTransition(this._zone, this._elementRef.nativeElement, ngbAlertFadingTransition, {
-			animation: this.animation,
-			runningTransition: 'continue',
-		});
-		transition.subscribe(() => this.closed.emit());
-		return transition;
-	}
+        throw new Error("STUB");
+    }
 }

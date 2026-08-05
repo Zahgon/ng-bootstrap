@@ -143,23 +143,12 @@ export class NgbToast implements AfterContentInit, OnChanges {
 	}
 
 	ngAfterContentInit() {
-		afterNextRender(
-			{
-				mixedReadWrite: () => {
-					this._init();
-					this.show();
-				},
-			},
-			{ injector: this._injector },
-		);
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges(changes: SimpleChanges) {
-		if ('autohide' in changes) {
-			this._clearTimeout();
-			this._init();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Triggers toast closing programmatically.
@@ -172,16 +161,8 @@ export class NgbToast implements AfterContentInit, OnChanges {
 	 * @since 8.0.0
 	 */
 	hide(): Observable<void> {
-		this._clearTimeout();
-		const transition = ngbRunTransition(this._zone, this._element.nativeElement, ngbToastFadeOutTransition, {
-			animation: this.animation,
-			runningTransition: 'stop',
-		});
-		transition.subscribe(() => {
-			this.hidden.emit();
-		});
-		return transition;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Triggers toast opening programmatically.
@@ -194,26 +175,14 @@ export class NgbToast implements AfterContentInit, OnChanges {
 	 * @since 8.0.0
 	 */
 	show(): Observable<void> {
-		const transition = ngbRunTransition(this._zone, this._element.nativeElement, ngbToastFadeInTransition, {
-			animation: this.animation,
-			runningTransition: 'continue',
-		});
-		transition.subscribe(() => {
-			this.shown.emit();
-		});
-		return transition;
-	}
+        throw new Error("STUB");
+    }
 
 	private _init() {
-		if (this.autohide && !this._timeoutID) {
-			this._timeoutID = setTimeout(() => this.hide(), this.delay);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _clearTimeout() {
-		if (this._timeoutID) {
-			clearTimeout(this._timeoutID);
-			this._timeoutID = null;
-		}
-	}
+        throw new Error("STUB");
+    }
 }

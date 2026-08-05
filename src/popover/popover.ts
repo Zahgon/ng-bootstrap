@@ -77,8 +77,8 @@ export class NgbPopoverWindow {
 	@Input() onMouseLeave: () => void;
 
 	isTitleTemplate() {
-		return this.title instanceof TemplateRef;
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -237,82 +237,8 @@ export class NgbPopover implements OnInit, OnDestroy, OnChanges {
 	 * The `context` is an optional value to be injected into the popover template when it is created.
 	 */
 	open(context?: any) {
-		if (!this._opening && this._transitioning) {
-			this._transitioning = false;
-			ngbCompleteTransition(this._windowRef!.location.nativeElement);
-		}
-		if (!this._windowRef && !this._isDisabled()) {
-			// this type assertion is safe because otherwise _isDisabled would return true
-			const { windowRef, transition$ } = this._popupService.open(
-				this.ngbPopover as string | TemplateRef<any>,
-				context ?? this.popoverContext,
-				this.animation,
-			);
-			this._opening = true;
-			this._transitioning = true;
-			this._windowRef = windowRef;
-			this._windowRef.setInput('animation', this.animation);
-			this._windowRef.setInput('title', this.popoverTitle);
-			this._windowRef.setInput('context', context ?? this.popoverContext);
-			this._windowRef.setInput('popoverClass', this.popoverClass);
-			this._windowRef.setInput('id', this._ngbPopoverWindowId);
-			this._windowRef.setInput('onMouseEnter', () => this._mouseEnterPopover.next());
-			this._windowRef.setInput('onMouseLeave', () => this._mouseLeavePopover.next());
-
-			this._getPositionTargetElement().setAttribute('aria-describedby', this._ngbPopoverWindowId);
-
-			if (this.container === 'body') {
-				this._document.body.appendChild(this._windowRef.location.nativeElement);
-			}
-
-			// We need to detect changes, because we don't know where .open() might be called from.
-			// Ex. opening popover from one of lifecycle hooks that run after the CD
-			// (say from ngAfterViewInit) will result in 'ExpressionHasChanged' exception
-			this._windowRef.changeDetectorRef.detectChanges();
-
-			// We need to mark for check, because popover won't work inside the OnPush component.
-			// Ex. when we use expression like `{{ popover.isOpen() : 'opened' : 'closed' }}`
-			// inside the template of an OnPush component and we change the popover from
-			// open -> closed, the expression in question won't be updated unless we explicitly
-			// mark the parent component to be checked.
-			this._windowRef.changeDetectorRef.markForCheck();
-
-			// Setting up popper and scheduling updates when zone is stable
-			this._ngZone.runOutsideAngular(() => {
-				this._positioning.createPopper({
-					hostElement: this._getPositionTargetElement(),
-					targetElement: this._windowRef!.location.nativeElement,
-					placement: this.placement,
-					baseClass: 'bs-popover',
-					updatePopperOptions: (options) => this.popperOptions(addPopperOffset([0, 8])(options)),
-				});
-
-				Promise.resolve().then(() => {
-					// This update is required for correct arrow placement
-					this._positioning.update();
-				});
-				this._afterRenderRef = afterEveryRender(
-					{
-						mixedReadWrite: () => {
-							this._positioning.update();
-						},
-					},
-					{ injector: this._injector },
-				);
-			});
-
-			ngbAutoClose(this._ngZone, this._document, this.autoClose, () => this.close(), this.hidden, [
-				this._windowRef.location.nativeElement,
-			]);
-
-			transition$.subscribe(() => {
-				if (this._transitioning) {
-					this._transitioning = false;
-					this.shown.emit();
-				}
-			});
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Closes the popover.
@@ -320,26 +246,8 @@ export class NgbPopover implements OnInit, OnDestroy, OnChanges {
 	 * This is considered to be a "manual" triggering of the popover.
 	 */
 	close(animation = this.animation) {
-		if (this._opening && this._transitioning) {
-			this._transitioning = false;
-			ngbCompleteTransition(this._windowRef!.location.nativeElement);
-		}
-		if (this._windowRef) {
-			this._getPositionTargetElement().removeAttribute('aria-describedby');
-			this._opening = false;
-			this._transitioning = true;
-			this._popupService.close(animation).subscribe(() => {
-				this._windowRef = null;
-				this._positioning.destroy();
-				this._afterRenderRef?.destroy();
-				if (this._transitioning) {
-					this._transitioning = false;
-					this.hidden.emit();
-				}
-				this._changeDetector.markForCheck();
-			});
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Toggles the popover.
@@ -347,59 +255,33 @@ export class NgbPopover implements OnInit, OnDestroy, OnChanges {
 	 * This is considered to be a "manual" triggering of the popover.
 	 */
 	toggle(): void {
-		if (this._windowRef) {
-			this.close();
-		} else {
-			this.open();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns `true`, if the popover is currently shown.
 	 */
 	isOpen(): boolean {
-		return this._windowRef != null;
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnInit() {
-		this._unregisterListenersFn = listenToTriggers(
-			this._nativeElement,
-			this.triggers,
-			this.isOpen.bind(this),
-			this.open.bind(this),
-			this.close.bind(this),
-			+this.openDelay,
-			+this.closeDelay,
-			this._mouseEnterPopover,
-			this._mouseLeavePopover,
-		);
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges({ ngbPopover, popoverTitle, disablePopover, popoverClass }: SimpleChanges) {
-		if (popoverClass && this.isOpen()) {
-			this._windowRef!.setInput('popoverClass', popoverClass.currentValue);
-		}
-		// close popover if title and content become empty, or disablePopover set to true
-		if ((ngbPopover || popoverTitle || disablePopover) && this._isDisabled()) {
-			this.close();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy() {
-		this.close(false);
-		// This check is needed as it might happen that ngOnDestroy is called before ngOnInit
-		// under certain conditions, see: https://github.com/ng-bootstrap/ng-bootstrap/issues/2199
-		this._unregisterListenersFn?.();
-	}
+        throw new Error("STUB");
+    }
 
 	private _isDisabled(): boolean {
-		return this.disablePopover ? true : !this.ngbPopover && !this.popoverTitle;
-	}
+        throw new Error("STUB");
+    }
 
 	private _getPositionTargetElement(): HTMLElement {
-		return (
-			(isString(this.positionTarget) ? this._document.querySelector(this.positionTarget) : this.positionTarget) ||
-			this._nativeElement
-		);
-	}
+        throw new Error("STUB");
+    }
 }

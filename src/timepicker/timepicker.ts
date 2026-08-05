@@ -213,7 +213,7 @@ const FILTER_REGEX = /[^0-9]/g;
 		</fieldset>
 	`,
 	changeDetection: ChangeDetectionStrategy.Eager,
-	providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NgbTimepicker), multi: true }],
+	providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => { throw new Error("STUB"); }), multi: true }],
 })
 export class NgbTimepicker implements ControlValueAccessor, OnChanges {
 	static ngAcceptInputType_size: string;
@@ -245,36 +245,36 @@ export class NgbTimepicker implements ControlValueAccessor, OnChanges {
 	 */
 	@Input()
 	set hourStep(step: number) {
-		this._hourStep = isInteger(step) ? step : this._config.hourStep;
-	}
+        throw new Error("STUB");
+    }
 
 	get hourStep(): number {
-		return this._hourStep;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * The number of minutes to add/subtract when clicking minute spinners.
 	 */
 	@Input()
 	set minuteStep(step: number) {
-		this._minuteStep = isInteger(step) ? step : this._config.minuteStep;
-	}
+        throw new Error("STUB");
+    }
 
 	get minuteStep(): number {
-		return this._minuteStep;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * The number of seconds to add/subtract when clicking second spinners.
 	 */
 	@Input()
 	set secondStep(step: number) {
-		this._secondStep = isInteger(step) ? step : this._config.secondStep;
-	}
+        throw new Error("STUB");
+    }
 
 	get secondStep(): number {
-		return this._secondStep;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, the timepicker is readonly and can't be changed.
@@ -303,139 +303,104 @@ export class NgbTimepicker implements ControlValueAccessor, OnChanges {
 		this.size = _config.size;
 	}
 
-	onChange = (_: any) => {};
-	onTouched = () => {};
+	onChange = (_: any) => {
+        throw new Error("STUB");
+    };
+	onTouched = () => {
+        throw new Error("STUB");
+    };
 
 	writeValue(value) {
-		const structValue = this._ngbTimeAdapter.fromModel(value);
-		this.model = structValue ? new NgbTime(structValue.hour, structValue.minute, structValue.second) : new NgbTime();
-		if (!this.seconds && (!structValue || !isNumber(structValue.second))) {
-			this.model.second = 0;
-		}
-		this._cd.markForCheck();
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnChange(fn: (value: any) => any): void {
-		this.onChange = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnTouched(fn: () => any): void {
-		this.onTouched = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	setDisabledState(isDisabled: boolean) {
-		this.disabled = isDisabled;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Increments the hours by the given step.
 	 */
 	changeHour(step: number) {
-		this.model?.changeHour(step);
-		this.propagateModelChange();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Increments the minutes by the given step.
 	 */
 	changeMinute(step: number) {
-		this.model?.changeMinute(step);
-		this.propagateModelChange();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Increments the seconds by the given step.
 	 */
 	changeSecond(step: number) {
-		this.model?.changeSecond(step);
-		this.propagateModelChange();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Update hours with the new value.
 	 */
 	updateHour(newVal: string) {
-		const isPM = this.model ? this.model.hour >= 12 : false;
-		const enteredHour = toInteger(newVal);
-		if (this.meridian && ((isPM && enteredHour < 12) || (!isPM && enteredHour === 12))) {
-			this.model?.updateHour(enteredHour + 12);
-		} else {
-			this.model?.updateHour(enteredHour);
-		}
-		this.propagateModelChange();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Update minutes with the new value.
 	 */
 	updateMinute(newVal: string) {
-		this.model?.updateMinute(toInteger(newVal));
-		this.propagateModelChange();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Update seconds with the new value.
 	 */
 	updateSecond(newVal: string) {
-		this.model?.updateSecond(toInteger(newVal));
-		this.propagateModelChange();
-	}
+        throw new Error("STUB");
+    }
 
 	toggleMeridian() {
-		if (this.model && isNumber(this.model.hour) && this.meridian) {
-			this.changeHour(12);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	formatInput(input: HTMLInputElement) {
-		input.value = input.value.replace(FILTER_REGEX, '');
-	}
+        throw new Error("STUB");
+    }
 
 	formatHour(value?: number) {
-		if (isNumber(value)) {
-			if (this.meridian) {
-				return padNumber(value % 12 === 0 ? 12 : value % 12);
-			} else {
-				return padNumber(value % 24);
-			}
-		} else {
-			return padNumber(NaN);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	formatMinSec(value?: number) {
-		return padNumber(isNumber(value) ? value : NaN);
-	}
+        throw new Error("STUB");
+    }
 
 	handleBlur() {
-		this.onTouched();
-	}
+        throw new Error("STUB");
+    }
 
 	get isSmallSize(): boolean {
-		return this.size === 'small';
-	}
+        throw new Error("STUB");
+    }
 
 	get isLargeSize(): boolean {
-		return this.size === 'large';
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['seconds'] && !this.seconds && this.model && !isNumber(this.model.second)) {
-			this.model.second = 0;
-			this.propagateModelChange(false);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private propagateModelChange(touched = true) {
-		if (touched) {
-			this.onTouched();
-		}
-		if (this.model?.isValid(this.seconds)) {
-			this.onChange(
-				this._ngbTimeAdapter.toModel({ hour: this.model.hour, minute: this.model.minute, second: this.model.second }),
-			);
-		} else {
-			this.onChange(this._ngbTimeAdapter.toModel(null));
-		}
-	}
+        throw new Error("STUB");
+    }
 }

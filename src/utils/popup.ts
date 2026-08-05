@@ -42,69 +42,14 @@ export class PopupService<T> {
 		templateContext?: any,
 		animation = false,
 	): { windowRef: ComponentRef<T>; transition$: Observable<void> } {
-		if (!this._windowRef) {
-			this._contentRef = this._getContentRef(content, templateContext);
-			this._windowRef = this._viewContainerRef.createComponent(this._componentType, {
-				injector: this._injector,
-				projectableNodes: this._contentRef.nodes,
-			});
-		}
-
-		const { nativeElement } = this._windowRef.location;
-
-		const nextRenderSubject = new Subject<void>();
-		afterNextRender(
-			{
-				mixedReadWrite: () => {
-					nextRenderSubject.next();
-					nextRenderSubject.complete();
-				},
-			},
-			{
-				injector: this._injector,
-			},
-		);
-		const transition$ = nextRenderSubject.pipe(
-			mergeMap(() =>
-				ngbRunTransition(this._ngZone, nativeElement, ({ classList }) => classList.add('show'), {
-					animation,
-					runningTransition: 'continue',
-				}),
-			),
-		);
-
-		return { windowRef: this._windowRef, transition$ };
-	}
+        throw new Error("STUB");
+    }
 
 	close(animation = false): Observable<void> {
-		if (!this._windowRef) {
-			return of(undefined);
-		}
-
-		return ngbRunTransition(
-			this._ngZone,
-			this._windowRef.location.nativeElement,
-			({ classList }) => classList.remove('show'),
-			{ animation, runningTransition: 'stop' },
-		).pipe(
-			tap(() => {
-				this._windowRef?.destroy();
-				this._contentRef?.viewRef?.destroy();
-				this._windowRef = null;
-				this._contentRef = null;
-			}),
-		);
-	}
+        throw new Error("STUB");
+    }
 
 	private _getContentRef(content?: string | TemplateRef<any>, templateContext?: any): ContentRef {
-		if (!content) {
-			return new ContentRef([]);
-		} else if (content instanceof TemplateRef) {
-			const viewRef = content.createEmbeddedView(templateContext);
-			this._applicationRef.attachView(viewRef);
-			return new ContentRef([viewRef.rootNodes], viewRef);
-		} else {
-			return new ContentRef([[this._document.createTextNode(`${content}`)]]);
-		}
-	}
+        throw new Error("STUB");
+    }
 }

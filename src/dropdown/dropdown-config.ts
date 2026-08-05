@@ -12,6 +12,6 @@ import { PlacementArray } from '@ng-bootstrap/ng-bootstrap/utils';
 export class NgbDropdownConfig {
 	autoClose: boolean | 'outside' | 'inside' = true;
 	placement: PlacementArray = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
-	popperOptions = (options: Partial<Options>) => options;
+	popperOptions = (options: Partial<Options>) => { throw new Error("STUB"); };
 	container: null | 'body' = null;
 }

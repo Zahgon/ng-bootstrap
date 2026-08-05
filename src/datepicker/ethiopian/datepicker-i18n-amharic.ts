@@ -11,8 +11,8 @@ const MONTHS = ['መስከረም', 'ጥቅምት', 'ኅዳር', 'ታህሣሥ', 
 @Service({ autoProvided: false })
 export class NgbDatepickerI18nAmharic extends NgbDatepickerI18n {
 	getMonthShortName(month: number, year?: number | undefined): string {
-		return this.getMonthFullName(month, year);
-	}
+        throw new Error("STUB");
+    }
 
 	getMonthFullName(month: number, year?: number | undefined): string {
 		return MONTHS[month - 1];

@@ -8,7 +8,7 @@ export function isChangedDate(prev?: NgbDate | null, next?: NgbDate | null): boo
 }
 
 export function isChangedMonth(prev?: NgbDate | null, next?: NgbDate | null): boolean {
-	return !prev && !next ? false : !prev || !next ? true : prev.year !== next.year || prev.month !== next.month;
+    throw new Error("STUB");
 }
 
 export function dateComparator(prev?: NgbDate | null, next?: NgbDate | null): boolean {
@@ -61,12 +61,12 @@ export function generateSelectBoxMonths(
 	let months = calendar.getMonths(date.year);
 
 	if (minDate && date.year === minDate.year) {
-		const index = months.findIndex((month) => month === minDate.month);
+		const index = months.findIndex((month) => { throw new Error("STUB"); });
 		months = months.slice(index);
 	}
 
 	if (maxDate && date.year === maxDate.year) {
-		const index = months.findIndex((month) => month === maxDate.month);
+		const index = months.findIndex((month) => { throw new Error("STUB"); });
 		months = months.slice(0, index + 1);
 	}
 
@@ -117,26 +117,13 @@ export function buildMonths(
 
 	// generate new first dates, nullify or reuse months
 	const firstDates = Array.from({ length: displayMonths }, (_, i) => {
-		const firstDate = Object.assign(calendar.getNext(date, 'm', i), { day: 1 });
-		months[i] = <any>null;
-
-		if (!force) {
-			const reusedIndex = monthsToReuse.findIndex((month) => month.firstDate.equals(firstDate));
-			// move reused month back to months
-			if (reusedIndex !== -1) {
-				months[i] = monthsToReuse.splice(reusedIndex, 1)[0];
-			}
-		}
-
-		return firstDate;
-	});
+        throw new Error("STUB");
+    });
 
 	// rebuild nullified months
 	firstDates.forEach((firstDate, i) => {
-		if (months[i] === null) {
-			months[i] = buildMonth(calendar, firstDate, state, i18n, monthsToReuse.shift() || ({} as MonthViewModel));
-		}
-	});
+        throw new Error("STUB");
+    });
 
 	return months;
 }
@@ -241,7 +228,7 @@ export function buildMonth(
 		}
 
 		weekObject.number = calendar.getWeekNumber(
-			days.map((day) => day.date),
+			days.map((day) => { throw new Error("STUB"); }),
 			firstDayOfWeek,
 		);
 

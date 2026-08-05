@@ -27,8 +27,8 @@ const MONTHS_LEAP = [
 @Service({ autoProvided: false })
 export class NgbDatepickerI18nHebrew extends NgbDatepickerI18n {
 	getMonthShortName(month: number, year?: number): string {
-		return this.getMonthFullName(month, year);
-	}
+        throw new Error("STUB");
+    }
 
 	getMonthFullName(month: number, year?: number): string {
 		return isHebrewLeapYear(year) ? MONTHS_LEAP[month - 1] || '' : MONTHS[month - 1] || '';
@@ -43,14 +43,14 @@ export class NgbDatepickerI18nHebrew extends NgbDatepickerI18n {
 	}
 
 	getDayNumerals(date: NgbDateStruct): string {
-		return hebrewNumerals(date.day);
-	}
+        throw new Error("STUB");
+    }
 
 	getWeekNumerals(weekNumber: number): string {
-		return hebrewNumerals(weekNumber);
-	}
+        throw new Error("STUB");
+    }
 
 	getYearNumerals(year: number): string {
-		return hebrewNumerals(year);
-	}
+        throw new Error("STUB");
+    }
 }

@@ -16,7 +16,7 @@ export class NgbTooltipConfig {
 
 	autoClose: boolean | 'inside' | 'outside' = true;
 	placement: PlacementArray = 'auto';
-	popperOptions = (options: Partial<Options>) => options;
+	popperOptions = (options: Partial<Options>) => { throw new Error("STUB"); };
 	triggers = 'hover focus';
 	container: string;
 	disableTooltip = false;
@@ -28,9 +28,9 @@ export class NgbTooltipConfig {
 	 * @defaultValue `true`
 	 */
 	get animation(): boolean {
-		return this._animation ?? this._ngbConfig.animation;
-	}
+        throw new Error("STUB");
+    }
 	set animation(animation: boolean) {
-		this._animation = animation;
-	}
+        throw new Error("STUB");
+    }
 }

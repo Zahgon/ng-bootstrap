@@ -58,28 +58,6 @@ export class NgbHighlight implements OnChanges {
 	@Input() accentSensitive = true;
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (!this.accentSensitive && !String.prototype.normalize) {
-			console.warn(
-				'The `accentSensitive` input in `ngb-highlight` cannot be set to `false` in a browser ' +
-					'that does not implement the `String.normalize` function. ' +
-					'You will have to include a polyfill in your application to use this feature in the current browser.',
-			);
-			this.accentSensitive = true;
-		}
-		const result = toString(this.result);
-
-		const terms = Array.isArray(this.term) ? this.term : [this.term];
-		const prepareTerm = (term) => (this.accentSensitive ? term : removeAccents(term));
-		const escapedTerms = terms.map((term) => regExpEscape(prepareTerm(toString(term)))).filter((term) => term);
-		const toSplit = this.accentSensitive ? result : removeAccents(result);
-
-		const parts = escapedTerms.length ? toSplit.split(new RegExp(`(${escapedTerms.join('|')})`, 'gmi')) : [result];
-
-		if (this.accentSensitive) {
-			this.parts = parts;
-		} else {
-			let offset = 0;
-			this.parts = parts.map((part) => result.substring(offset, (offset += part.length)));
-		}
-	}
+        throw new Error("STUB");
+    }
 }

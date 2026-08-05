@@ -59,30 +59,20 @@ export class NgbAccordionBody implements AfterContentChecked, OnDestroy {
 	@ContentChild(TemplateRef, { static: true }) private _bodyTpl: TemplateRef<any>;
 
 	ngAfterContentChecked(): void {
-		if (this._bodyTpl) {
-			if (this._item._shouldBeInDOM) {
-				this._createViewIfNotExists();
-			} else {
-				this._destroyViewIfExists();
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy(): void {
-		this._destroyViewIfExists();
-	}
+        throw new Error("STUB");
+    }
 
 	private _destroyViewIfExists(): void {
-		this._viewRef?.destroy();
-		this._viewRef = null;
-	}
+        throw new Error("STUB");
+    }
 
 	private _createViewIfNotExists(): void {
-		if (!this._viewRef) {
-			this._viewRef = this._vcr.createEmbeddedView(this._bodyTpl);
-			this._viewRef.detectChanges();
-		}
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -205,10 +195,8 @@ export class NgbAccordionItem implements AfterContentInit {
 	 * @param id The ID of the accordion item, must be a non-empty string
 	 */
 	@Input('ngbAccordionItem') set id(id: string) {
-		if (isString(id) && id !== '') {
-			this._id = id;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, the content of the accordion item's body will be removed from the DOM. It will be just hidden otherwise.
@@ -218,12 +206,12 @@ export class NgbAccordionItem implements AfterContentInit {
 	 * @defaultValue `true` - initialized from the parent NgbAccordion directive
 	 */
 	@Input() set destroyOnHide(destroyOnHide: boolean) {
-		this._destroyOnHide = destroyOnHide;
-	}
+        throw new Error("STUB");
+    }
 
 	get destroyOnHide(): boolean {
-		return this._destroyOnHide === undefined ? this._accordion.destroyOnHide : this._destroyOnHide!;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * If `true`, the accordion item will be disabled.
@@ -237,12 +225,8 @@ export class NgbAccordionItem implements AfterContentInit {
 	 * @defaultValue `true`
 	 */
 	@Input() set collapsed(collapsed: boolean) {
-		if (collapsed) {
-			this.collapse();
-		} else {
-			this.expand();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Event emitted before the expanding animation starts. It has no payload.
@@ -270,105 +254,49 @@ export class NgbAccordionItem implements AfterContentInit {
 	@Output() hidden = new EventEmitter<void>();
 
 	get collapsed() {
-		return this._collapsed;
-	}
+        throw new Error("STUB");
+    }
 
 	get id() {
-		return `${this._id}`;
-	}
+        throw new Error("STUB");
+    }
 
 	get toggleId() {
-		return `${this.id}-toggle`;
-	}
+        throw new Error("STUB");
+    }
 
 	get collapseId() {
-		return `${this.id}-collapse`;
-	}
+        throw new Error("STUB");
+    }
 
 	get _shouldBeInDOM() {
-		return !this.collapsed || this._collapseAnimationRunning || !this.destroyOnHide;
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterContentInit() {
-		const { ngbCollapse } = this._collapse;
-		// we need to disable the animation for the first init
-		ngbCollapse.animation = false;
-		ngbCollapse.collapsed = this.collapsed;
-		// we set the animation to the default of the accordion
-		ngbCollapse.animation = this._accordion.animation;
-		// event forwarding from 'ngbCollapse' to 'ngbAccordion'
-		ngbCollapse.hidden.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
-			// when the animation finishes we can remove the template from DOM
-			this._collapseAnimationRunning = false;
-			this.hidden.emit();
-			this._accordion.hidden.emit(this.id);
-			// need if the accordion is used inside a component having OnPush change detection strategy
-			this._cd.markForCheck();
-		});
-		ngbCollapse.shown.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
-			this.shown.emit();
-			this._accordion.shown.emit(this.id);
-			// need if the accordion is used inside a component having OnPush change detection strategy
-			this._cd.markForCheck();
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Toggles an accordion item.
 	 */
 	toggle() {
-		this.collapsed = !this.collapsed;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Expands an accordion item.
 	 */
 	expand() {
-		if (this.collapsed) {
-			// checking if accordion allows to expand the panel in respect to 'closeOthers' flag
-			if (!this._accordion._ensureCanExpand(this)) {
-				return;
-			}
-
-			this._collapsed = false;
-
-			// need if the accordion is used inside a component having OnPush change detection strategy
-			this._cd.markForCheck();
-
-			// we need force CD to get template into DOM before starting animation to calculate its height correctly
-			// this will synchronously put the item body into DOM, because `this._collapsed` was flipped to `false`
-			this._cd.detectChanges();
-
-			// firing events before starting animations
-			this.show.emit();
-			this._accordion.show.emit(this.id);
-
-			// we also need to make sure 'animation' flag is up-to- date
-			this._collapse.ngbCollapse.animation = this._accordion.animation;
-			this._collapse.ngbCollapse.collapsed = false;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Collapses an accordion item.
 	 */
 	collapse() {
-		if (!this.collapsed) {
-			this._collapsed = true;
-			this._collapseAnimationRunning = true;
-
-			// need if the accordion is used inside a component having OnPush change detection strategy
-			this._cd.markForCheck();
-
-			// firing events before starting animations
-			this.hide.emit();
-			this._accordion.hide.emit(this.id);
-
-			// we also need to make sure 'animation' flag is up-to- date
-			this._collapse.ngbCollapse.animation = this._accordion.animation;
-			this._collapse.ngbCollapse.collapsed = true;
-		}
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -439,8 +367,8 @@ export class NgbAccordionDirective {
 	 * @param itemId The id of the item to toggle.
 	 */
 	toggle(itemId: string) {
-		this._getItem(itemId)?.toggle();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Expands an item with the given id.
@@ -450,8 +378,8 @@ export class NgbAccordionDirective {
 	 * @param itemId The id of the item to expand.
 	 */
 	expand(itemId: string) {
-		this._getItem(itemId)?.expand();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Expands all items.
@@ -459,18 +387,8 @@ export class NgbAccordionDirective {
 	 * If `closeOthers` is `true` and all items are closed, it will open the first one. Otherwise, it will keep the opened one.
 	 */
 	expandAll() {
-		if (this._items) {
-			if (this.closeOthers) {
-				// we check if there is an item open and if it is not we can expand the first item
-				// (otherwise we toggle nothing)
-				if (!this._items.find((item) => !item.collapsed)) {
-					this._items.first.expand();
-				}
-			} else {
-				this._items.forEach((item) => item.expand());
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Collapses an item with the given id.
@@ -480,15 +398,15 @@ export class NgbAccordionDirective {
 	 * @param itemId The id of the item to collapse.
 	 */
 	collapse(itemId: string) {
-		this._getItem(itemId)?.collapse();
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Collapses all items.
 	 */
 	collapseAll() {
-		this._items?.forEach((item) => item.collapse());
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Checks if an item with the given id is expanded.
@@ -498,9 +416,8 @@ export class NgbAccordionDirective {
 	 * @param itemId The id of the item to check.
 	 */
 	isExpanded(itemId: string) {
-		const item = this._getItem(itemId);
-		return item ? !item.collapsed : false;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * It checks, if the item can be expanded in the current state of the accordion.
@@ -509,27 +426,10 @@ export class NgbAccordionDirective {
 	 * @internal
 	 */
 	_ensureCanExpand(toExpand: NgbAccordionItem) {
-		if (!this.closeOthers) {
-			return true;
-		}
-
-		// special case during the initialization of the [collapse]="false" inputs
-		// `this._items` QueryList is not yet initialized, but we need to ensure only one item can be expanded at a time
-		if (!this._items) {
-			if (!this._anItemWasAlreadyExpandedDuringInitialisation) {
-				this._anItemWasAlreadyExpandedDuringInitialisation = true;
-				return true;
-			}
-			return false;
-		}
-
-		// if there is an expanded item, we need to collapse it first
-		this._items.find((item) => !item.collapsed && toExpand !== item)?.collapse();
-
-		return true;
-	}
+        throw new Error("STUB");
+    }
 
 	private _getItem(itemId: string): NgbAccordionItem | undefined {
-		return this._items?.find((item) => item.id === itemId);
-	}
+        throw new Error("STUB");
+    }
 }

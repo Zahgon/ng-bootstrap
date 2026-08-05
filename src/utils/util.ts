@@ -6,7 +6,7 @@ export function toInteger(value: any): number {
 }
 
 export function toString(value: any): string {
-	return value !== undefined && value !== null ? `${value}` : '';
+    throw new Error("STUB");
 }
 
 export function getValueInRange(value: number, max: number, min = 0): number {
@@ -30,19 +30,15 @@ export function isDefined(value: any): boolean {
 }
 
 export function isPromise<T>(v: any): v is Promise<T> {
-	return v && v.then;
+    throw new Error("STUB");
 }
 
 export function padNumber(value: number) {
-	if (isNumber(value)) {
-		return `0${value}`.slice(-2);
-	} else {
-		return '';
-	}
+    throw new Error("STUB");
 }
 
 export function regExpEscape(text) {
-	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    throw new Error("STUB");
 }
 
 export function closest(element: HTMLElement, selector?: string): HTMLElement | null {
@@ -81,17 +77,12 @@ export function reflow(element: HTMLElement) {
  */
 export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
 	return (source) => {
-		return new Observable((observer) => {
-			const next = (value: T) => zone.run(() => observer.next(value));
-			const error = (e: any) => zone.run(() => observer.error(e));
-			const complete = () => zone.run(() => observer.complete());
-			return source.subscribe({ next, error, complete });
-		});
-	};
+        throw new Error("STUB");
+    };
 }
 
 export function removeAccents(str: string): string {
-	return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    throw new Error("STUB");
 }
 
 /**
@@ -99,11 +90,5 @@ export function removeAccents(str: string): string {
  * If the active element is inside a shadow root, it is searched recursively.
  */
 export function getActiveElement(root: Document | ShadowRoot = document): Element | null {
-	const activeEl = root?.activeElement;
-
-	if (!activeEl) {
-		return null;
-	}
-
-	return activeEl.shadowRoot ? getActiveElement(activeEl.shadowRoot) : activeEl;
+    throw new Error("STUB");
 }

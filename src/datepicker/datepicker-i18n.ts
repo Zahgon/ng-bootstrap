@@ -16,7 +16,7 @@ import { NgbDateStruct } from './ngb-date-struct';
  * a custom provider for i18n.
  */
 @Service({
-	factory: () => new NgbDatepickerI18nDefault(),
+	factory: () => { throw new Error("STUB"); },
 })
 export abstract class NgbDatepickerI18n {
 	/**
@@ -46,8 +46,8 @@ export abstract class NgbDatepickerI18n {
 	 * @since 9.1.0
 	 */
 	getMonthLabel(date: NgbDateStruct): string {
-		return `${this.getMonthFullName(date.month, date.year)} ${this.getYearNumerals(date.year)}`;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns the value of the `aria-label` attribute for a specific date.
@@ -62,8 +62,8 @@ export abstract class NgbDatepickerI18n {
 	 * @since 3.0.0
 	 */
 	getDayNumerals(date: NgbDateStruct): string {
-		return `${date.day}`;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns the textual representation of a week number rendered by datepicker.
@@ -71,8 +71,8 @@ export abstract class NgbDatepickerI18n {
 	 * @since 3.0.0
 	 */
 	getWeekNumerals(weekNumber: number): string {
-		return `${weekNumber}`;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns the textual representation of a year that is rendered in the datepicker year select box.
@@ -80,8 +80,8 @@ export abstract class NgbDatepickerI18n {
 	 * @since 3.0.0
 	 */
 	getYearNumerals(year: number): string {
-		return `${year}`;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns the week label to display in the heading of the month view.
@@ -89,8 +89,8 @@ export abstract class NgbDatepickerI18n {
 	 * @since 9.1.0
 	 */
 	getWeekLabel(): string {
-		return '';
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -104,10 +104,10 @@ export class NgbDatepickerI18nDefault extends NgbDatepickerI18n {
 	private _locale = inject(LOCALE_ID);
 
 	private _monthsShort = [...Array(12).keys()].map((month) =>
-		Intl.DateTimeFormat(this._locale, { month: 'short', timeZone: 'UTC' }).format(Date.UTC(2000, month)),
+		{ throw new Error("STUB"); },
 	);
 	private _monthsFull = [...Array(12).keys()].map((month) =>
-		Intl.DateTimeFormat(this._locale, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(2000, month)),
+		{ throw new Error("STUB"); },
 	);
 
 	getWeekdayLabel(
@@ -116,7 +116,7 @@ export class NgbDatepickerI18nDefault extends NgbDatepickerI18n {
 	): string {
 		// 1 MAY 2000 is a Monday
 		const weekdays = [1, 2, 3, 4, 5, 6, 7].map((day) =>
-			Intl.DateTimeFormat(this._locale, { weekday: width, timeZone: 'UTC' }).format(Date.UTC(2000, 4, day)),
+			{ throw new Error("STUB"); },
 		);
 
 		// `weekday` is 1 (Mon) to 7 (Sun)
@@ -124,8 +124,8 @@ export class NgbDatepickerI18nDefault extends NgbDatepickerI18n {
 	}
 
 	getMonthShortName(month: number): string {
-		return this._monthsShort[month - 1] || '';
-	}
+        throw new Error("STUB");
+    }
 
 	getMonthFullName(month: number): string {
 		return this._monthsFull[month - 1] || '';

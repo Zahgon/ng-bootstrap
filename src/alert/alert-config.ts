@@ -19,9 +19,9 @@ export class NgbAlertConfig {
 	 * @defaultValue `true`
 	 */
 	get animation(): boolean {
-		return this._animation ?? this._ngbConfig.animation;
-	}
+        throw new Error("STUB");
+    }
 	set animation(animation: boolean) {
-		this._animation = animation;
-	}
+        throw new Error("STUB");
+    }
 }

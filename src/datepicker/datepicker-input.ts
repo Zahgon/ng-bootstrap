@@ -60,8 +60,8 @@ import { ContentTemplateContext } from './datepicker-content-template-context';
 		'[disabled]': 'disabled',
 	},
 	providers: [
-		{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NgbInputDatepicker), multi: true },
-		{ provide: NG_VALIDATORS, useExisting: forwardRef(() => NgbInputDatepicker), multi: true },
+		{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => { throw new Error("STUB"); }), multi: true },
+		{ provide: NG_VALIDATORS, useExisting: forwardRef(() => { throw new Error("STUB"); }), multi: true },
 		{ provide: NgbDatepickerConfig, useExisting: NgbInputDatepickerConfig },
 	],
 })
@@ -297,80 +297,53 @@ export class NgbInputDatepicker implements OnChanges, OnDestroy, ControlValueAcc
 
 	@Input()
 	get disabled() {
-		return this._disabled;
-	}
+        throw new Error("STUB");
+    }
 	set disabled(value: any) {
-		this._disabled = value === '' || (value && value !== 'false');
+        throw new Error("STUB");
+    }
 
-		if (this.isOpen()) {
-			this._cRef!.instance.setDisabledState(this._disabled);
-		}
-	}
-
-	private _onChange = (_: any) => {};
-	private _onTouched = () => {};
-	private _validatorChange = () => {};
+	private _onChange = (_: any) => {
+        throw new Error("STUB");
+    };
+	private _onTouched = () => {
+        throw new Error("STUB");
+    };
+	private _validatorChange = () => {
+        throw new Error("STUB");
+    };
 
 	registerOnChange(fn: (value: any) => any): void {
-		this._onChange = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnTouched(fn: () => any): void {
-		this._onTouched = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnValidatorChange(fn: () => void): void {
-		this._validatorChange = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	setDisabledState(isDisabled: boolean): void {
-		this.disabled = isDisabled;
-	}
+        throw new Error("STUB");
+    }
 
 	validate(c: AbstractControl): ValidationErrors | null {
-		const { value } = c;
-
-		if (value != null) {
-			const ngbDate = this._fromDateStruct(this._dateAdapter.fromModel(value));
-
-			if (!ngbDate) {
-				return { ngbDate: { invalid: value } };
-			}
-
-			if (this.minDate && ngbDate.before(NgbDate.from(this.minDate))) {
-				return { ngbDate: { minDate: { minDate: this.minDate, actual: value } } };
-			}
-
-			if (this.maxDate && ngbDate.after(NgbDate.from(this.maxDate))) {
-				return { ngbDate: { maxDate: { maxDate: this.maxDate, actual: value } } };
-			}
-		}
-
-		return null;
-	}
+        throw new Error("STUB");
+    }
 
 	writeValue(value) {
-		this._model = this._fromDateStruct(this._dateAdapter.fromModel(value));
-		this._writeModelValue(this._model);
-	}
+        throw new Error("STUB");
+    }
 
 	manualDateChange(value: string, updateView = false) {
-		const inputValueChanged = value !== this._inputValue;
-		if (inputValueChanged) {
-			this._inputValue = value;
-			this._model = this._fromDateStruct(this._parserFormatter.parse(value));
-		}
-		if (inputValueChanged || !updateView) {
-			this._onChange(this._model ? this._dateAdapter.toModel(this._model) : value === '' ? null : value);
-		}
-		if (updateView && this._model) {
-			this._writeModelValue(this._model);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	isOpen() {
-		return !!this._cRef;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Opens the datepicker popup.
@@ -378,113 +351,22 @@ export class NgbInputDatepicker implements OnChanges, OnDestroy, ControlValueAcc
 	 * If the related form control contains a valid date, the corresponding month will be opened.
 	 */
 	open() {
-		if (!this.isOpen()) {
-			this._cRef = this._vcRef.createComponent(NgbDatepicker, { injector: this._injector });
-
-			this._applyPopupStyling(this._cRef.location.nativeElement);
-			this._applyDatepickerInputs(this._cRef);
-			this._subscribeForDatepickerOutputs(this._cRef.instance);
-			this._cRef.instance.ngOnInit();
-			this._cRef.instance.writeValue(this._dateAdapter.toModel(this._model));
-
-			// date selection event handling
-			this._cRef.instance.registerOnChange((selectedDate) => {
-				this.writeValue(selectedDate);
-				this._onChange(selectedDate);
-				this._onTouched();
-			});
-
-			this._cRef.changeDetectorRef.detectChanges();
-
-			this._cRef.instance.setDisabledState(this.disabled);
-
-			if (this.container === 'body') {
-				this._document.querySelector(this.container)?.appendChild(this._cRef.location.nativeElement);
-			}
-
-			// focus handling
-			this._elWithFocus = this._document.activeElement as HTMLElement | null;
-			ngbFocusTrap(this._ngZone, this._cRef.location.nativeElement, this.closed, true);
-			setTimeout(() => this._cRef?.instance.focus());
-
-			let hostElement: HTMLElement | null;
-			if (isString(this.positionTarget)) {
-				hostElement = this._document.querySelector(this.positionTarget);
-			} else if (this.positionTarget instanceof HTMLElement) {
-				hostElement = this.positionTarget;
-			} else {
-				hostElement = this._elRef.nativeElement;
-			}
-
-			if (this.positionTarget && !hostElement) {
-				throw new Error('ngbDatepicker could not find element declared in [positionTarget] to position against.');
-			}
-
-			// Setting up popper and scheduling updates when zone is stable
-			this._ngZone.runOutsideAngular(() => {
-				if (this._cRef && hostElement) {
-					this._positioning.createPopper({
-						hostElement,
-						targetElement: this._cRef.location.nativeElement,
-						placement: this.placement,
-						updatePopperOptions: (options) => this.popperOptions(addPopperOffset([0, 2])(options)),
-					});
-
-					this._afterRenderRef = afterEveryRender(
-						{
-							mixedReadWrite: () => {
-								this._positioning.update();
-							},
-						},
-						{ injector: this._injector },
-					);
-				}
-			});
-
-			this._setCloseHandlers();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Closes the datepicker popup.
 	 */
 	close() {
-		if (this.isOpen()) {
-			this._cRef?.destroy();
-			this._cRef = null;
-			this._positioning.destroy();
-			this._afterRenderRef?.destroy();
-			this._destroyCloseHandlers$.next();
-			this.closed.emit();
-			this._changeDetector.markForCheck();
-
-			// restore focus
-			let elementToFocus: HTMLElement | null = this._elWithFocus;
-			if (isString(this.restoreFocus)) {
-				elementToFocus = this._document.querySelector(this.restoreFocus);
-			} else if (this.restoreFocus !== undefined) {
-				elementToFocus = this.restoreFocus as HTMLElement;
-			}
-
-			// in IE document.activeElement can contain an object without 'focus()' sometimes
-			if (elementToFocus && elementToFocus['focus']) {
-				elementToFocus.focus();
-			} else {
-				this._document.body.focus();
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Toggles the datepicker popup.
 	 */
 	toggle() {
-		if (this.isOpen()) {
-			this.close();
-		} else {
-			this.open();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Navigates to the provided date.
@@ -495,128 +377,50 @@ export class NgbInputDatepicker implements OnChanges, OnDestroy, ControlValueAcc
 	 * Use the `[startDate]` input as an alternative.
 	 */
 	navigateTo(date?: { year: number; month: number; day?: number }) {
-		if (this.isOpen()) {
-			this._cRef!.instance.navigateTo(date);
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	onBlur() {
-		this._onTouched();
-	}
+        throw new Error("STUB");
+    }
 
 	onFocus() {
-		this._elWithFocus = this._elRef.nativeElement;
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes['minDate'] || changes['maxDate']) {
-			this._validatorChange();
-
-			if (this.isOpen()) {
-				if (changes['minDate']) {
-					this._cRef!.setInput('minDate', this.minDate);
-				}
-				if (changes['maxDate']) {
-					this._cRef!.setInput('maxDate', this.maxDate);
-				}
-			}
-		}
-
-		if (changes['datepickerClass']) {
-			const { currentValue, previousValue } = changes['datepickerClass'];
-			this._applyPopupClass(currentValue, previousValue);
-		}
-
-		if (changes['autoClose'] && this.isOpen()) {
-			this._setCloseHandlers();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnDestroy() {
-		this.close();
-	}
+        throw new Error("STUB");
+    }
 
 	private _applyDatepickerInputs(datepickerComponentRef: ComponentRef<NgbDatepicker>): void {
-		[
-			'contentTemplate',
-			'dayTemplate',
-			'dayTemplateData',
-			'displayMonths',
-			'firstDayOfWeek',
-			'footerTemplate',
-			'markDisabled',
-			'minDate',
-			'maxDate',
-			'navigation',
-			'outsideDays',
-			'showNavigation',
-			'showWeekNumbers',
-			'weekdays',
-		].forEach((inputName: string) => {
-			if (this[inputName] !== undefined) {
-				datepickerComponentRef.setInput(inputName, this[inputName]);
-			}
-		});
-		datepickerComponentRef.setInput('startDate', this.startDate || this._model);
-	}
+        throw new Error("STUB");
+    }
 
 	private _applyPopupClass(newClass: string, oldClass?: string) {
-		const popupEl = this._cRef?.location.nativeElement as HTMLElement;
-		if (popupEl) {
-			if (newClass) {
-				popupEl.classList.add(newClass);
-			}
-			if (oldClass) {
-				popupEl.classList.remove(oldClass);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _applyPopupStyling(nativeElement: HTMLElement) {
-		nativeElement.classList.add('dropdown-menu', 'show');
-
-		if (this.container === 'body') {
-			nativeElement.classList.add('ngb-dp-body');
-		}
-
-		this._applyPopupClass(this.datepickerClass);
-	}
+        throw new Error("STUB");
+    }
 
 	private _subscribeForDatepickerOutputs(datepickerInstance: NgbDatepicker) {
-		datepickerInstance.navigate.subscribe((navigateEvent) => this.navigate.emit(navigateEvent));
-		datepickerInstance.dateSelect.subscribe((date) => {
-			this.dateSelect.emit(date);
-			if (this.autoClose === true || this.autoClose === 'inside') {
-				this.close();
-			}
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	private _writeModelValue(model: NgbDate | null) {
-		const value = this._parserFormatter.format(model);
-		this._inputValue = value;
-		this._elRef.nativeElement.value = value;
-		if (this.isOpen()) {
-			this._cRef!.instance.writeValue(this._dateAdapter.toModel(model));
-			this._onTouched();
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	private _fromDateStruct(date: NgbDateStruct | null): NgbDate | null {
-		const ngbDate = date ? new NgbDate(date.year, date.month, date.day) : null;
-		return this._calendar.isValid(ngbDate) ? ngbDate : null;
-	}
+        throw new Error("STUB");
+    }
 
 	private _setCloseHandlers() {
-		this._destroyCloseHandlers$.next();
-		ngbAutoClose(
-			this._ngZone,
-			this._document,
-			this.autoClose,
-			() => this.close(),
-			this._destroyCloseHandlers$,
-			[],
-			[this._elRef.nativeElement, this._cRef!.location.nativeElement],
-		);
-	}
+        throw new Error("STUB");
+    }
 }

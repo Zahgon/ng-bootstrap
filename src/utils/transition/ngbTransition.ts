@@ -23,10 +23,12 @@ export interface NgbTransitionCtx<T> {
 	context: T;
 }
 
-const noopFn: NgbTransitionEndFn = () => {};
+const noopFn: NgbTransitionEndFn = () => {
+    throw new Error("STUB");
+};
 
 export const environment = {
-	getTransitionTimerDelayMs: () => 5,
+	getTransitionTimerDelayMs: () => { throw new Error("STUB"); },
 };
 
 const runningTransitions = new Map<HTMLElement, NgbTransitionCtx<any>>();
@@ -52,7 +54,7 @@ export const ngbRunTransition = <T>(
 			// We're simply completing the running one and not emitting any values and merging newly provided context
 			// with the one coming from currently running transition.
 			case 'stop':
-				zone.run(() => running.transition$.complete());
+				zone.run(() => { throw new Error("STUB"); });
 				context = Object.assign(running.context, context);
 				runningTransitions.delete(element);
 		}
@@ -66,7 +68,7 @@ export const ngbRunTransition = <T>(
 	// In this case we have to call the end function, but can finish immediately by emitting a value,
 	// completing the observable and executing end functions synchronously.
 	if (!options.animation || window.getComputedStyle(element).transitionProperty === 'none') {
-		zone.run(() => endFn());
+		zone.run(() => { throw new Error("STUB"); });
 		return of(undefined).pipe(runInZone(zone));
 	}
 
@@ -77,9 +79,8 @@ export const ngbRunTransition = <T>(
 	runningTransitions.set(element, {
 		transition$,
 		complete: () => {
-			finishTransition$.next();
-			finishTransition$.complete();
-		},
+            throw new Error("STUB");
+        },
 		context,
 	});
 
@@ -92,27 +93,12 @@ export const ngbRunTransition = <T>(
 	// 2. We need to filter transition end events, because they might bubble from shorter transitions
 	// on inner DOM elements. We're only interested in the transition on the 'element' itself.
 	zone.runOutsideAngular(() => {
-		const transitionEnd$ = fromEvent(element, 'transitionend').pipe(
-			takeUntil(stop$),
-			filter(({ target }) => target === element),
-		);
-		const timer$ = timer(transitionDurationMs + environment.getTransitionTimerDelayMs()).pipe(takeUntil(stop$));
-
-		race(timer$, transitionEnd$, finishTransition$)
-			.pipe(takeUntil(stop$))
-			.subscribe(() => {
-				runningTransitions.delete(element);
-				zone.run(() => {
-					endFn();
-					transition$.next();
-					transition$.complete();
-				});
-			});
-	});
+        throw new Error("STUB");
+    });
 
 	return transition$.asObservable();
 };
 
 export const ngbCompleteTransition = (element: HTMLElement) => {
-	runningTransitions.get(element)?.complete();
+    throw new Error("STUB");
 };

@@ -191,18 +191,16 @@ export class NgbDatepickerMonth {
 	 */
 	@Input()
 	set month(month: NgbDateStruct) {
-		this.viewModel = this._service.getMonth(month);
-	}
+        throw new Error("STUB");
+    }
 
 	onKeyDown(event: KeyboardEvent) {
-		this._keyboardService.processKey(event, this.datepicker);
-	}
+        throw new Error("STUB");
+    }
 
 	doSelect(day: DayViewModel) {
-		if (!day.context.disabled && !day.hidden) {
-			this.datepicker.onDateSelect(day.date);
-		}
-	}
+        throw new Error("STUB");
+    }
 }
 
 /**
@@ -279,7 +277,7 @@ export class NgbDatepickerMonth {
 		<ng-template [ngTemplateOutlet]="footerTemplate" />
 	`,
 	providers: [
-		{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NgbDatepicker), multi: true },
+		{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => { throw new Error("STUB"); }), multi: true },
 		NgbDatepickerService,
 	],
 })
@@ -446,67 +444,16 @@ export class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, ControlV
 	 */
 	@Output() dateSelect = new EventEmitter<NgbDate>();
 
-	onChange = (_: any) => {};
-	onTouched = () => {};
+	onChange = (_: any) => {
+        throw new Error("STUB");
+    };
+	onTouched = () => {
+        throw new Error("STUB");
+    };
 
 	constructor() {
-		const cd = inject(ChangeDetectorRef);
-
-		this._service.dateSelect$.pipe(takeUntilDestroyed()).subscribe((date) => {
-			this.dateSelect.emit(date);
-		});
-
-		this._service.model$.pipe(takeUntilDestroyed()).subscribe((model) => {
-			const newDate = model.firstDate!;
-			const oldDate = this.model ? this.model.firstDate : null;
-
-			// update public state
-			this._publicState = {
-				maxDate: model.maxDate,
-				minDate: model.minDate,
-				firstDate: model.firstDate!,
-				lastDate: model.lastDate!,
-				focusedDate: model.focusDate!,
-				months: model.months.map((viewModel) => viewModel.firstDate),
-			};
-
-			let navigationPrevented = false;
-			// emitting navigation event if the first month changes
-			if (!newDate.equals(oldDate)) {
-				this.navigate.emit({
-					current: oldDate ? { year: oldDate.year, month: oldDate.month } : null,
-					next: { year: newDate.year, month: newDate.month },
-					preventDefault: () => (navigationPrevented = true),
-				});
-
-				// can't prevent the very first navigation
-				if (navigationPrevented && oldDate !== null) {
-					this._service.open(oldDate);
-					return;
-				}
-			}
-
-			const newSelectedDate = model.selectedDate;
-			const newFocusedDate = model.focusDate;
-			const oldFocusedDate = this.model ? this.model.focusDate : null;
-
-			this.model = model;
-
-			// handling selection change
-			if (isChangedDate(newSelectedDate, this._controlValue)) {
-				this._controlValue = newSelectedDate;
-				this.onTouched();
-				this.onChange(this._ngbDateAdapter.toModel(newSelectedDate));
-			}
-
-			// handling focus change
-			if (isChangedDate(newFocusedDate, oldFocusedDate) && oldFocusedDate && model.focusVisible) {
-				this.focus();
-			}
-
-			cd.markForCheck();
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 *  Returns the readonly public state of the datepicker
@@ -514,8 +461,8 @@ export class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, ControlV
 	 * @since 5.2.0
 	 */
 	get state(): NgbDatepickerState {
-		return this._publicState;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 *  Returns the calendar service used in the specific datepicker instance.
@@ -523,8 +470,8 @@ export class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, ControlV
 	 *  @since 5.3.0
 	 */
 	get calendar(): NgbCalendar {
-		return this._calendar;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 * Returns the i18n service used in the specific datepicker instance.
@@ -532,29 +479,29 @@ export class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, ControlV
 	 * @since 14.2.0
 	 */
 	get i18n(): NgbDatepickerI18n {
-		return this._i18n;
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 *  Focuses on given date.
 	 */
 	focusDate(date?: NgbDateStruct | null): void {
-		this._service.focus(NgbDate.from(date));
-	}
+        throw new Error("STUB");
+    }
 
 	/**
 	 *  Selects focused date.
 	 */
 	focusSelect(): void {
-		this._service.focusSelect();
-	}
+        throw new Error("STUB");
+    }
 
 	focus() {
 		afterNextRender(
 			{
 				read: () => {
-					this._nativeElement.querySelector<HTMLElement>('div.ngb-dp-day[tabindex="0"]')?.focus();
-				},
+                    throw new Error("STUB");
+                },
 			},
 			{ injector: this._injector },
 		);
@@ -569,118 +516,46 @@ export class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, ControlV
 	 * Use the `[startDate]` input as an alternative.
 	 */
 	navigateTo(date?: { year: number; month: number; day?: number }) {
-		this._service.open(NgbDate.from(date ? (date.day ? (date as NgbDateStruct) : { ...date, day: 1 }) : null));
-	}
+        throw new Error("STUB");
+    }
 
 	ngAfterViewInit() {
-		this._ngZone.runOutsideAngular(() => {
-			const focusIns$ = fromEvent<FocusEvent>(this._contentEl.nativeElement, 'focusin');
-			const focusOuts$ = fromEvent<FocusEvent>(this._contentEl.nativeElement, 'focusout');
-
-			// we're changing 'focusVisible' only when entering or leaving months view
-			// and ignoring all focus events where both 'target' and 'related' target are day cells
-			merge(focusIns$, focusOuts$)
-				.pipe(
-					filter((focusEvent) => {
-						const target = focusEvent.target as HTMLElement | null;
-						const relatedTarget = focusEvent.relatedTarget as HTMLElement | null;
-
-						return !(
-							target?.classList.contains('ngb-dp-day') &&
-							relatedTarget?.classList.contains('ngb-dp-day') &&
-							this._nativeElement.contains(target) &&
-							this._nativeElement.contains(relatedTarget)
-						);
-					}),
-					takeUntilDestroyed(this._destroyRef),
-				)
-				.subscribe(({ type }) => this._ngZone.run(() => this._service.set({ focusVisible: type === 'focusin' })));
-		});
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnInit() {
-		if (this.model === undefined) {
-			const inputs: DatepickerServiceInputs = {};
-			[
-				'dayTemplateData',
-				'displayMonths',
-				'markDisabled',
-				'firstDayOfWeek',
-				'navigation',
-				'minDate',
-				'maxDate',
-				'outsideDays',
-				'weekdays',
-			].forEach((name) => (inputs[name] = this[name]));
-			this._service.set(inputs);
-
-			this.navigateTo(this.startDate);
-		}
-		if (!this.dayTemplate) {
-			this.dayTemplate = this._defaultDayTemplate;
-		}
-		this._initialized = true;
-	}
+        throw new Error("STUB");
+    }
 
 	ngOnChanges(changes: SimpleChanges) {
-		const inputs: DatepickerServiceInputs = {};
-		[
-			'dayTemplateData',
-			'displayMonths',
-			'markDisabled',
-			'firstDayOfWeek',
-			'navigation',
-			'minDate',
-			'maxDate',
-			'outsideDays',
-			'weekdays',
-		]
-			.filter((name) => name in changes)
-			.forEach((name) => (inputs[name] = this[name]));
-		this._service.set(inputs);
-
-		if ('startDate' in changes && this._initialized) {
-			const { currentValue, previousValue } = changes.startDate;
-			if (isChangedMonth(previousValue, currentValue)) {
-				this.navigateTo(this.startDate);
-			}
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	onDateSelect(date: NgbDate) {
-		this._service.focus(date);
-		this._service.select(date, { emitEvent: true });
-	}
+        throw new Error("STUB");
+    }
 
 	onNavigateDateSelect(date: NgbDate) {
-		this._service.open(date);
-	}
+        throw new Error("STUB");
+    }
 
 	onNavigateEvent(event: NavigationEvent) {
-		switch (event) {
-			case NavigationEvent.PREV:
-				this._service.open(this._calendar.getPrev(this.model.firstDate!, 'm', 1));
-				break;
-			case NavigationEvent.NEXT:
-				this._service.open(this._calendar.getNext(this.model.firstDate!, 'm', 1));
-				break;
-		}
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnChange(fn: (value: any) => any): void {
-		this.onChange = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	registerOnTouched(fn: () => any): void {
-		this.onTouched = fn;
-	}
+        throw new Error("STUB");
+    }
 
 	setDisabledState(disabled: boolean) {
-		this._service.set({ disabled });
-	}
+        throw new Error("STUB");
+    }
 
 	writeValue(value) {
-		this._controlValue = NgbDate.from(this._ngbDateAdapter.fromModel(value));
-		this._service.select(this._controlValue);
-	}
+        throw new Error("STUB");
+    }
 }
